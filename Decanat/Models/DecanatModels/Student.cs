@@ -8,11 +8,11 @@ namespace Decanat.Models.DecanatModels
     public class Student
     {
         private int id { get; set; }
-        private String surname { get; set; }
-        private String firstName { get; set; }
-        private String patrinymic { get; set; }
-        private String mobileNomber { get; set; }
-        private String email { get; set; }
+        private string surname { get; set; }
+        private string firstName { get; set; }
+        private string patrinymic { get; set; }
+        private string mobileNomber { get; set; }
+        private string email { get; set; }
         private int gruppaId { get; set; }
 
         public Student()
@@ -20,12 +20,15 @@ namespace Decanat.Models.DecanatModels
 
         }
 
-        public Student(int id, String surname, String firstName, String patronymic) 
+        public Student(int id, string surname, string firstName, string patronymic, string mobileNomber, string email, int gruppaid) 
         {
             this.id = id;
             this.surname = surname;
             this.firstName = firstName;
             this.patrinymic = patrinymic;
+            this.mobileNomber = mobileNomber;
+            this.email = email;
+            this.gruppaId = gruppaid;
         }
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Decanat.DAO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,24 @@ namespace Decanat.Controllers
     {
         public ActionResult Index()
         {
+            //StudentDAO stDAO = new StudentDAO();
+            // stDAO.getStudentInfo(0);
+            /* if (stDAO.testmethod())
+             {
+                 return View("Test");
+             }
+             else return View("Index");*/
+            /* if (User.IsInRole("admin"))
+             {
+                 return View("AdminStartPage");
+             }
+             else if (User.IsInRole("student")) { return View("StudentStartPage"); }
+             else if (User.IsInRole("teacher")) { return View("TSeacherStartPage"); }
+             else return View("AdminStartPage");*/
+            AnswerDAO aDAO = new AnswerDAO();
+            aDAO.getLastAnswers();
             return View();
+            
         }
 
         public ActionResult About()

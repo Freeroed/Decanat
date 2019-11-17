@@ -171,11 +171,22 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DAO\AbstractDAO.cs" />
+    <Compile Include="DAO\AnswerDAO.cs" />
+    <Compile Include="DAO\GruppaDAO.cs" />
+    <Compile Include="DAO\StudentDAO.cs" />
+    <Compile Include="DAO\TeacherDAO.cs" />
+    <Compile Include="DAO\VkrDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DecanatModels\Answer.cs" />
+    <Compile Include="Models\DecanatModels\Gruppa.cs" />
+    <Compile Include="Models\DecanatModels\Plan.cs" />
+    <Compile Include="Models\DecanatModels\Step.cs" />
     <Compile Include="Models\DecanatModels\Student.cs" />
+    <Compile Include="Models\DecanatModels\Teacher.cs" />
+    <Compile Include="Models\DecanatModels\VKR.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -237,6 +248,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\AdminStartPage.cshtml" />
+    <Content Include="Views\Home\StudentStartPage.cshtml" />
+    <Content Include="Views\Home\TeacherStartPage.cshtml" />
+    <None Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Home\UnnamedUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
