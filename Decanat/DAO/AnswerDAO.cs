@@ -126,6 +126,7 @@ namespace Decanat.DAO
             return resuln;
         }
 
+        //Добавление поля для ответа
         public bool add(Answer ans)
         {
             bool result = true;
@@ -136,7 +137,29 @@ namespace Decanat.DAO
                 cmd.Parameters.Add(new SqlParameter("@VKRId", ans.vkrId));
                 cmd.Parameters.Add(new SqlParameter("@StepId", ans.stepid));
                 cmd.ExecuteNonQuery();
-                
+            }
+            catch(Exception e)
+            {
+                result = false;
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return result;
+        }
+
+        //Предоставление ответа
+        public bool sendAnswer(int id, string link)
+        {
+            bool result = true;
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE Answer SET Link = @Link WHERE Id=@Id", Connection);
+                cmd.Parameters.Add(new SqlParameter("@Id",id));
+                cmd.Parameters.Add(new SqlParameter("@Link", link));
+                cmd.ExecuteNonQuery();
 
             }
             catch(Exception e)

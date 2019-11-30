@@ -42,11 +42,12 @@ namespace Decanat.Models.DecanatModels
             }
         }
         public int status { get; set; }
-        //1 - представлен
-        //2 - проверен
+        //0 - Не представлен
+        //1 - Представлен
+        //2 - Оценён
         //3 - Отправлен на исправление
-        //4 - Оценён
-        //5 - Просрочен
+        //4 - просрочен
+        
         public string statusName
         {
                 get {
