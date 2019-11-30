@@ -1,0 +1,42 @@
+﻿@model Decanat.Models.DecanatModels.Answer
+
+@{
+    ViewBag.Title = "ShowAnswerInfo";
+}
+
+<h2>Информация о работе</h2>
+<p>
+    Название работы: @Html.DisplayFor(ModelItem => Model.vkrName)
+</p>
+<p>
+    Этап: @Html.DisplayFor(ModelItem => Model.stepName)
+</p>
+<p>
+    Статус: @Html.DisplayFor(ModelItem => Model.statusName)
+</p>
+<p>
+    Ответ представлен: @Html.DisplayFor(ModelItem => Model.answerDate)
+</p>
+@if (Model.status == 2)
+{
+    <p>
+        Оценка: @Html.DisplayFor(ModelItem => Model.mark)
+    </p>
+    <p>
+        Дата оценки: @Html.DisplayFor(ModelItem => Model.markDate)
+    </p>
+}
+else
+{
+    if (User.IsInRole("teacher"))
+    {
+        <p>
+            @Html.ActionLink("Оценить", "SetMark")
+        </p>
+        <p>
+            @Html.ActionLink("На исправление", "SendToEdit")
+        </p>
+    }
+
+}
+

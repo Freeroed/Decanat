@@ -1,4 +1,5 @@
 ﻿using Decanat.DAO;
+using Decanat.Models.DecanatModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,26 +10,88 @@ namespace Decanat.Controllers
 {
     public class HomeController : Controller
     {
+        VkrDAO vDAO = new VkrDAO();
+        StudentDAO sDAO = new StudentDAO();
+        AnswerDAO aDAO = new AnswerDAO();
+        TeacherDAO tDAO = new TeacherDAO();
+        GruppaDAO gDAO = new GruppaDAO();
+
+        //Стартовая страница
         public ActionResult Index()
         {
-            //StudentDAO stDAO = new StudentDAO();
-            // stDAO.getStudentInfo(0);
-            /* if (stDAO.testmethod())
-             {
-                 return View("Test");
-             }
-             else return View("Index");*/
-            /* if (User.IsInRole("admin"))
-             {
-                 return View("AdminStartPage");
-             }
-             else if (User.IsInRole("student")) { return View("StudentStartPage"); }
-             else if (User.IsInRole("teacher")) { return View("TSeacherStartPage"); }
-             else return View("AdminStartPage");*/
-            AnswerDAO aDAO = new AnswerDAO();
-            aDAO.getLastAnswers();
+
+            if (User.IsInRole("student"))
+            {
+                int id = sDAO.getStudentId(User.Identity.Name);
+                Console.WriteLine(id);
+                ViewAnswerAndVKR vav = new ViewAnswerAndVKR(vDAO.getVKRbyStudent(id), id);
+                return View(vav);
+
+            }
+            else if (User.IsInRole("teacher"))
+            {
+                int id = tDAO.getTeacherId(User.Identity.Name);
+                ViewAnswerAndVKR vav = new ViewAnswerAndVKR(aDAO.getLastAnswers(id), id);
+                return View(vav);
+            } else
+            {
+                return View();
+            }
+
+
+        }
+        //******************************************************************
+        //Добавления
+        //******************************************************************
+
+
+        //Добавление студента
+        public ActionResult AddStudent()
+        {
             return View();
-            
+        }
+
+        [Authorize(Roles ="decan,director")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddStudent([Bind(Exclude = "ID")] Student st)
+        {
+            if (sDAO.add(st)) return RedirectToAction("Index");
+            else return View("AddStudent");
+        }
+
+        //Добавление учителя
+        public ActionResult AddTeacher()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "decan,director")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddTeacher([Bind(Exclude = "ID")] Teacher teach)
+        {
+            if (tDAO.add(teach)) return RedirectToAction("Index");
+            else return View("AddTeacher");
+        }
+
+
+        //**********************************************************************
+        //Предоставление информации
+        //**********************************************************************
+
+
+        //Подробная информация о представленном ответе
+        [Authorize(Roles = "teacher,student")]
+        public ActionResult ShowAnswerInfo(int id)
+        {
+            Answer ans = aDAO.getInfo(id);
+            return View(ans);
+
+        }
+        //GET: VKR
+        //Просмотреть все документы
+        public ActionResult getAllWorks()
+        {
+            return View(vDAO.getAllVKR());
         }
 
         public ActionResult About()

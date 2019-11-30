@@ -8,22 +8,32 @@ namespace Decanat.Models.DecanatModels
 {
     public class Answer
     {
-        private int id { get; set; }
-        private string link { get; set; }
-        private string mark { get; set; }
-        private DateTime markDate { get; set; }
-        private DateTime answerDate { get; set; }
-        private int vkrId { get; set; }
-        private string vkrName
+        public int id { get; set; }
+        public string link { get; set; }
+        public int mark { get; set; }
+        public DateTime markDate { get; set; }
+        public DateTime answerDate { get; set; }
+        public int vkrId { get; set; }
+        public int stepid { get; set; } 
+        public string stepName
+        {
+            get
+            {
+                StepDAO sDAO = new StepDAO();
+                return sDAO.getStepName(this.id);
+            }
+        }
+        public string vkrName
         {
             get
             {
                 VkrDAO vDAO = new VkrDAO();
                 return vDAO.getVKRName(vkrId);
             }
+            
         }
-        private int gruppaId { get; set; }
-        private string gruppaName
+        public int gruppaId { get; set; }
+        public string gruppaName
         {
             get
             {
@@ -31,33 +41,59 @@ namespace Decanat.Models.DecanatModels
                 return gDAO.getGruppaName(gruppaId);
             }
         }
-        private int status { get; set; }
+        public int status { get; set; }
         //1 - представлен
         //2 - проверен
         //3 - Отправлен на исправление
         //4 - Оценён
         //5 - Просрочен
-        public string GetStatusName()
+        public string statusName
         {
-                {
+                get {
                 switch (this.status)
                 {
+                    case 0:
+                        return "Не представлен";
                     case 1:
                         return "Представлен";
                     case 2:
-                        return "Проверен";
+                        return "Оценён";
                     case 3:
                         return "Отправлен на исправление";
                     case 4:
-                        return "Оценён";
-                    case 5:
                         return "Просрочен";
                     default:
                         return "error 404";
                 }
             }
         }
+        //Конструкторы*************************************************
+        public Answer(string vkrName)
+        {
+            //this.vkrName = vkrName;
+        }
 
+        public Answer(int id)
+        {
+            this.id = id;
+        }
 
+        public Answer(int id, string link,  int vkrId)
+        {
+            this.id = id;
+            this.link = link;
+            this.vkrId = vkrId;
+        }
+        public Answer(int id, string link, int vkrId, DateTime answerDate)
+        {
+            this.id = id;
+            this.link = link;
+            this.vkrId = vkrId;
+            this.answerDate = answerDate;
+        }
+        public Answer()
+        {
+
+        }
     }
 }

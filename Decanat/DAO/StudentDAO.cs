@@ -42,50 +42,60 @@ namespace Decanat.DAO
             return s;
 
         }
-
-        public Boolean testmethod()
+        //Получить ID студента по email
+        public int getStudentId(string email)
         {
-            
+            int id = 0;
             try
             {
                 Connect();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Student WHERE Id=@id", Connection);
-                cmd.Parameters.Add(new SqlParameter("@id", 1));
+                SqlCommand cmd = new SqlCommand("SELECT Id FROM Student WHERE email = @email", Connection);
+                cmd.Parameters.Add(new SqlParameter("@email", email));
                 SqlDataReader reader = cmd.ExecuteReader();
-                Student st;
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    //int id = Convert.ToInt32(reader["Id"]);
-                    int tId = Convert.ToInt32(reader["Id"]);
-                    string tSurname = Convert.ToString(reader["Surname"]);
-                    string tFirstName = Convert.ToString(reader["FirstName"]);
-                    string tPanronymic = Convert.ToString(reader["Patronymic"]);
-                    string tMobileNomber = Convert.ToString(reader["MobileNomber"]);
-                    string tEmail = Convert.ToString(reader["Email"]);
-                    int tGruppaId = Convert.ToInt32(reader["GruppaId"]);
-                    st = new Student(tId, tSurname, tFirstName, tPanronymic, tMobileNomber, tEmail, tGruppaId);
+                    id = Convert.ToInt32(reader["Id"]);
+                    return id;
                 }
-
-                // int tId = Convert.ToInt32(reader["Id"]);
-                // string tSurname = Convert.ToString(reader["Surname"]);
-                // string tFirstName = Convert.ToString(reader["FirstName"]);
-                //string tPanronymic = Convert.ToString(reader["Patronymic"]);
-                //string tMobileNomber = Convert.ToString(reader["MobileNomber"]);
-                //string tEmail = Convert.ToString(reader["Email"]);
-                // int tGruppaId = Convert.ToInt32(reader["GruppaId"]);
-                // st = new Student(tId, tSurname, tFirstName, tPanronymic, tMobileNomber, tEmail, tGruppaId);
-                return true;
-                //return true;
+                
             }
-            catch (Exception)
+            catch(Exception e)
             {
-                return false;
+              //  
+            }
+            finally
+            {
+                Disconnect(); 
+            }
+            return id;
+        }
+
+        public bool add(Student student)
+        {
+            bool result = true;
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("INSERT INTO Student (Surname, FirstName, Patronymic, MobileNumber, Email, GruppaId) VALUES (@Surname, @FirstName, @Patronymic, @MobileNumber, @Email, @GruppaId)", Connection);
+                cmd.Parameters.Add(new SqlParameter("@Surname", student.surname));
+                cmd.Parameters.Add(new SqlParameter("@FirstName", student.firstName));
+                cmd.Parameters.Add(new SqlParameter("@Patronymic", student.patronymic));
+                cmd.Parameters.Add(new SqlParameter("@MobileNumber", student.mobileNomber));
+                cmd.Parameters.Add(new SqlParameter("@Email", student.email));
+                cmd.Parameters.Add(new SqlParameter("@GruppaId", student.gruppaId));
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                result = false;
             }
             finally
             {
                 Disconnect();
             }
+            return result;
         }
+
     }
        
     

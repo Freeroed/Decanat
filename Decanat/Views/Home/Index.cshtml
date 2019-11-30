@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Decanat.Models.DecanatModels.Answer>
+﻿@model Decanat.Models.DecanatModels.ViewAnswerAndVKR
 @{
     ViewBag.Title = "Home Page";
 }
@@ -6,34 +6,101 @@
 @if (User.IsInRole("admin"))
 {
     <h2>Я админ</h2>
+    <p>
+        @Html.ActionLink("Посмотреть всё", "getAllWorks")
+    </p>
 }
 else
 {
     if (User.IsInRole("student"))
     {
         <h2>Я студент</h2>
-    }
-    if (User.IsInRole("teacher"))
-    {
-        <h2>Я преподаватель</h2>
-        <table class="table">
-            <tr>
-                <th>
-                    Название работы
-                </th>
-            </tr>
-            @foreach(var item in Model)
-            {
-        <tr>
-            @Html.DisplayFor(modelItem => item.ToString())
-        </tr>
-            }
-        </table>
-
+        <h2>
+            @Html.DisplayFor(modelItem => Model.vkr.theme)
+        </h2>
     }
     else
     {
-        <h2>Для доступа к возможностям сервиса вам необходимо пройти авторизацию</h2>
+        if (User.IsInRole("teacher"))
+        {
+            <h2>Я преподаватель</h2>
+            <h2>
+                @Html.DisplayFor(modelItem => Model.id)
+            </h2>
+            <table class="table">
+                <tr>
+                    <th>
+                        Название работы
+                    </th>
+                    <th>
+                        Дата предоставления
+                    </th>
 
+                </tr>
+                @foreach (var item in Model.answers)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.vkrName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.answerDate)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Просмотреть", "ShowAnswerInfo", new { id = item.id })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+        }
+        else
+        {
+            if (User.IsInRole("decan"))
+            {
+                <h2>Я Декан</h2>
+                <p>
+                    @Html.ActionLink("Добавление студента", "AddStudent")
+                </p>
+                <p>
+                    @Html.ActionLink("Добавление преподавателя", "AddTeacher")
+                </p>
+                <p>
+                    @Html.ActionLink("Просмотр всех планов-графиков", "")
+                </p>
+                <p>
+                    @Html.ActionLink("Создание плана-Графика", "")
+                </p>
+
+            }
+            else
+            {
+                if (User.IsInRole("director"))
+                {
+                    <h2>Я Директор, мне необходимо сделать частичное представление как у студента и препода</h2>
+                    <p>
+                        @Html.ActionLink("Добавление студента", "")
+                    </p>
+                    <p>
+                        @Html.ActionLink("Добавление преподавателя", "")
+                    </p>
+                    <p>
+                        @Html.ActionLink("Просмотр всех вланов-графиков", "")
+                    </p>
+                    <p>
+                        @Html.ActionLink("Создание плана-Графика", "")
+                    </p>
+                    <p>
+                        @Html.ActionLink("Утверждение плана-графика", "")
+                    </p>
+                }
+                else
+                {
+                    <h2> Для доступа к возможностям сервиса вам необходимо пройти авторизацию</h2> }
+
+            }
+        }
     }
+    
 }

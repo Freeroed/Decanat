@@ -5,14 +5,15 @@ using System.Web;
 
 namespace Decanat.Models.DecanatModels
 {
+    //Есть изменения
     public class Step
     {
-        private int id { get; set; }
-        private string name { get; set; }
-        private DateTime date { get; set; }
-        private int status { get; set; }
-        private string comment { get; set; }
-        
+        public int id { get; set; }
+        public string name { get; set; }
+        public DateTime date { get; set; }
+        public int status { get; set; }
+        public string comment { get; set; }
+        public int planId { get; set; }
 
 
     }

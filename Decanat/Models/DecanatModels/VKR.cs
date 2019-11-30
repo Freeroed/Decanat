@@ -7,8 +7,50 @@ namespace Decanat.Models.DecanatModels
 {
     public class VKR
     {
-        private int id { get; set; }
-        private string theme { get; set; }
-        private int teacherId { get; set; }
+        public int id { get; set; }
+        public string theme { get; set; }
+        public int teacherId { get; set; }
+        public int status { get; set; }
+        //1 - На выполнении
+        //2 - Выполнена
+        //3 - Просрочена
+        //4 - Отменена
+        public int studentId { get; set; }
+
+        public VKR(string theme)
+        {
+            this.theme = theme;
+        }
+
+        public VKR(int id, string theme, int studentId, int teacherId, int status)
+        {
+            this.id = id;
+            this.theme = theme;
+            this.teacherId = teacherId;
+            this.studentId = studentId;
+            this.status = status;
+        }
+
+        public VKR()
+        {
+
+        }
+        public string getStatus()
+        {
+            switch (status)
+            {
+                case (1):
+                    return "На выполнении";
+                case (2):
+                    return "Выполнена";
+                case (3):
+                    return "Просрочена";
+                case (4):
+                    return "Отменена";
+                default:
+                    return "Не удалось загрузить стытус работы";
+            }
+        }
     }
+     
 }

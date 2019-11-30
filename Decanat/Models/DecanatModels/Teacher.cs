@@ -7,11 +7,39 @@ namespace Decanat.Models.DecanatModels
 {
     public class Teacher
     {
-        private int id { get; set; }
-        private string surname { get; set; }
-        private string firstName { get; set; }
-        private string patrinymic { get; set; }
-        private string position { get; set; }
-        private string kafedra { get; set; }
+        public int id { get; set; }
+        public string surname { get; set; }
+        public string firstName { get; set; }
+        public string patronymic { get; set; }
+        public string position { get; set; }
+        public int kafedraId { get; set; }
+        public string email { get; set; }
+
+
+        public Teacher(int id, string surname, string firstName, string patr, string position, int kafedra)
+        {
+            this.id = id;
+            this.surname = surname;
+            this.firstName = firstName;
+            this.patronymic = patr;
+            this.position = position;
+            this.kafedraId = kafedra;
+        }
+        public Teacher( string surname, string firstName, string patr, string position, int kafedra)
+        {
+            this.surname = surname;
+            this.firstName = firstName;
+            this.patronymic = patr;
+            this.position = position;
+            this.kafedraId = kafedra;
+        }
+
+        public string getFIO()
+        {
+            return surname + " " + firstName + " " + patronymic;
+        }
+        public Teacher()
+        {
+        }
     }
 }

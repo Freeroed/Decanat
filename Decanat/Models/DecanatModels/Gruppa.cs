@@ -7,8 +7,8 @@ namespace Decanat.Models.DecanatModels
 {
     public class Gruppa
     {
-        private int id { get; set; }
-        private Boolean bakalavr { get; set; }
-        private string kafedra { get; set; }
+        public int id { get; set; }
+        public Boolean bakalavr { get; set; }
+        public int kafedra { get; set; }
     }
 }
