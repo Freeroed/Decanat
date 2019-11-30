@@ -23,6 +23,8 @@ namespace Decanat.DAO
             catch(Exception e)
             {
                 result = false;
+                loger.Error("Произошла ошибка при добавлении плана-графика");
+                loger.Trace(e.StackTrace);
             }
             finally
             {
@@ -47,7 +49,8 @@ namespace Decanat.DAO
             }
             catch(Exception e)
             {
-
+                loger.Error("Произошла ошибка при запросе планов-графиков");
+                loger.Trace(e.StackTrace);
             }
             finally
             {

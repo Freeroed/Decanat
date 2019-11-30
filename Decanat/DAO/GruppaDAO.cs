@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -14,6 +15,7 @@ namespace Decanat.DAO
         {
             string s="";
             Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
                 SqlCommand cmd = new SqlCommand("SELECT Name FROM Gruppa WHERE Id=@id");
@@ -22,12 +24,14 @@ namespace Decanat.DAO
                 if (reader.Read())
                 {
                     s = Convert.ToString(reader["Name"]);
+                    loger.Info("Успешное получение информации о группе");
                     return s;
                 }
             }
             catch(Exception e)
             {
-                //
+                loger.Error("Произошла ошибка при получении информации о группе");
+                loger.Trace(e.StackTrace);
             }
             finally
             {
@@ -42,6 +46,7 @@ namespace Decanat.DAO
         {
             bool result = true;
             Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
                 SqlCommand cmd = new SqlCommand("INSERT INTO Gruppa(GroupName, Backlavr, KafedraId) VALUES (@GroupNmae, @Bakalavr, @KafedraId)", Connection);
@@ -52,6 +57,8 @@ namespace Decanat.DAO
             catch(Exception e)
             {
                 result = false;
+                loger.Error("Произошла ошибка при добавлении группы");
+                loger.Trace(e.StackTrace);
             }
             finally
             {

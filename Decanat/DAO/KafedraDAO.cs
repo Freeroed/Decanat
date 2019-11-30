@@ -26,7 +26,8 @@ namespace Decanat.DAO
             }
             catch(Exception e)
             {
-                //
+                loger.Error("Произошла ошибка при запросе названия группы");
+                loger.Trace(e.StackTrace);
             }
             finally
             {
@@ -54,7 +55,8 @@ namespace Decanat.DAO
             }
             catch(Exception e)
             {
-                ///
+                loger.Error("Произошла ошибка при запросе инфаормации о группе");
+                loger.Trace(e.StackTrace);
             }
             finally
             {

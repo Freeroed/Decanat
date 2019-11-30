@@ -87,15 +87,28 @@ namespace Decanat.DAO
         {
             VKR vkr = new VKR();
             Connect();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM VKR WHERE StudentId=@stId",Connection);
-            cmd.Parameters.Add(new SqlParameter("@stId", studentid));
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                vkr.id = Convert.ToInt32(reader["Id"]);
-                vkr.theme = Convert.ToString(reader["Theme"]);
-                vkr.studentId = Convert.ToInt32(reader["StudentId"]);
-                vkr.teacherId = Convert.ToInt32(reader["PrepodId"]);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM VKR WHERE StudentId=@stId", Connection);
+                cmd.Parameters.Add(new SqlParameter("@stId", studentid));
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    vkr.id = Convert.ToInt32(reader["Id"]);
+                    vkr.theme = Convert.ToString(reader["Theme"]);
+                    vkr.studentId = Convert.ToInt32(reader["StudentId"]);
+                    vkr.teacherId = Convert.ToInt32(reader["PrepodId"]);
+                }
+                return vkr;
+            }
+            catch(Exception e)
+            {
+                loger.Error("Произошла ошибка поиске ВКР");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
             }
             return vkr;
         }
@@ -120,7 +133,8 @@ namespace Decanat.DAO
             }
             catch(Exception e)
             {
-
+                loger.Error("Произошла ошибка при добавлении поля ответа");
+                loger.Trace(e.StackTrace);
             }
             finally
             {
@@ -156,6 +170,8 @@ namespace Decanat.DAO
             catch(Exception e)
             {
                 result = false;
+                loger.Error("Произошла ошибка при ВКР");
+                loger.Trace(e.StackTrace);
             }
             finally
             {

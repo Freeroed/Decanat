@@ -26,7 +26,8 @@ namespace Decanat.DAO
             }
             catch(Exception e)
             {
-                //
+                loger.Error("Произошла ошибка при запросе названия этапа");
+                loger.Trace(e.StackTrace);
             }
             finally
             {
@@ -50,6 +51,8 @@ namespace Decanat.DAO
             catch(Exception e)
             {
                 result = false;
+                loger.Error("Произошла ошибка при добавлении этапа");
+                loger.Trace(e.StackTrace);
             }
             finally
             {
@@ -80,7 +83,8 @@ namespace Decanat.DAO
             }
             catch
             {
-                //
+                loger.Error("Произошла ошибка при запросе всех этапов плана");
+                loger.Trace(e.StackTrace);
             }
             finally
             {

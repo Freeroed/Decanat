@@ -34,7 +34,8 @@ namespace Decanat.DAO
 
             catch (Exception)
             {
-                //Обработка ошибки
+                loger.Error("Произошла ошибка при запросе информации о студенте");
+                loger.Trace(e.StackTrace);
             }
             finally
             {
@@ -63,7 +64,8 @@ namespace Decanat.DAO
             }
             catch(Exception e)
             {
-              //  
+                loger.Error("Произошла ошибка при поиске студента");
+                loger.Trace(e.StackTrace);
             }
             finally
             {
@@ -90,6 +92,8 @@ namespace Decanat.DAO
             catch (Exception e)
             {
                 result = false;
+                loger.Error("Произошла ошибка при добавлении студента");
+                loger.Trace(e.StackTrace);
             }
             finally
             {

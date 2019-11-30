@@ -26,7 +26,8 @@ namespace Decanat.DAO
             }
             catch (Exception e)
             {
-                //оБРАБОТКА ИСКЛЮЧЕНИЯ
+                loger.Error("Произошла ошибка поиске преподавателя");
+                loger.Trace(e.StackTrace);
             }
             finally
             {
@@ -54,6 +55,8 @@ namespace Decanat.DAO
             catch(Exception e)
             {
                 result = false;
+                loger.Error("Произошла ошибка при добавлнеии преподавателя");
+                loger.Trace(e.StackTrace);
             }
             finally
             {
