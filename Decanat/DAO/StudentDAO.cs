@@ -11,6 +11,7 @@ namespace Decanat.DAO
     public class StudentDAO : AbstractDAO
     {
         
+        //Получение информации о студенте
         public string getStudentInfo(int id)
         {
              string s = "";
@@ -42,6 +43,7 @@ namespace Decanat.DAO
             return s;
 
         }
+
         //Получить ID студента по email
         public int getStudentId(string email)
         {
@@ -69,7 +71,7 @@ namespace Decanat.DAO
             }
             return id;
         }
-
+        //Добавление студента
         public bool add(Student student)
         {
             bool result = true;

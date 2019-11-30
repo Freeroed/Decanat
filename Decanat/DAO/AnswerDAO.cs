@@ -102,6 +102,53 @@ namespace Decanat.DAO
             }
             return ans;
         }
+
+        //Смена статуса
+        public bool setStatus(int id, int status)
+        {
+            bool resuln = true;
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE Answer SET Status=@status WHERE Id = @id");
+                cmd.Parameters.Add(new SqlParameter("@id", id));
+                cmd.Parameters.Add(new SqlParameter("@sattus", status));
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception e)
+            {
+                resuln = false;
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return resuln;
+        }
+
+        public bool add(Answer ans)
+        {
+            bool result = true;
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("INSERT INTO Answer(VKRId, StepId) VALUES (@VKRId, @StepId)", Connection );
+                cmd.Parameters.Add(new SqlParameter("@VKRId", ans.vkrId));
+                cmd.Parameters.Add(new SqlParameter("@StepId", ans.stepid));
+                cmd.ExecuteNonQuery();
+                
+
+            }
+            catch(Exception e)
+            {
+                result = false;
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return result;
+        }
         
     }
 

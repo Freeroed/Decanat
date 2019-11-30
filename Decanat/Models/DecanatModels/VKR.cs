@@ -16,12 +16,36 @@ namespace Decanat.Models.DecanatModels
         //3 - Просрочена
         //4 - Отменена
         public int studentId { get; set; }
+        public int planId { get; set; }
 
         public VKR(string theme)
         {
             this.theme = theme;
         }
 
+        
+        public string getStatus { get
+        {
+                switch (status)
+                {
+                    case (1):
+                        return "На выполнении";
+                    case (2):
+                        return "Выполнена";
+                    case (3):
+                        return "Просрочена";
+                    case (4):
+                        return "Отменена";
+                    default:
+                        return "Не удалось загрузить стытус работы";
+                }
+            } 
+        }
+        
+        //*****************************************************
+        //Кострукторы
+        //*****************************************************
+        
         public VKR(int id, string theme, int studentId, int teacherId, int status)
         {
             this.id = id;
@@ -31,25 +55,17 @@ namespace Decanat.Models.DecanatModels
             this.status = status;
         }
 
+        public VKR(string theme, int studentId, int teacherId, int planId)
+        {
+            this.theme = theme;
+            this.studentId = studentId;
+            this.teacherId = teacherId;
+            this.planId = planId;
+        }
+
         public VKR()
         {
 
-        }
-        public string getStatus()
-        {
-            switch (status)
-            {
-                case (1):
-                    return "На выполнении";
-                case (2):
-                    return "Выполнена";
-                case (3):
-                    return "Просрочена";
-                case (4):
-                    return "Отменена";
-                default:
-                    return "Не удалось загрузить стытус работы";
-            }
         }
     }
      

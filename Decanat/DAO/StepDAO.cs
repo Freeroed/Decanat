@@ -57,5 +57,36 @@ namespace Decanat.DAO
             }
             return result;
         }
+
+        public List<Step> getStepsByPlanId(int id)
+        {
+            List<Step> steps = new List<Step>();
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Step WHERE Id=@id");
+                cmd.Parameters.Add(new SqlParameter("@id", id));
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int stepid = Convert.ToInt32(reader["Id"]);
+                    string stepName = Convert.ToString(reader["Name"]);
+                    DateTime stepDate = Convert.ToDateTime(reader["Date"]);
+                    string stepComment = Convert.ToString(reader["Comment"]);
+                    int planId = Convert.ToInt32(reader["PlanId"]);
+                    steps.Add(new Step(stepid, stepName, stepDate, stepComment, planId));
+
+                }
+            }
+            catch
+            {
+                //
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return steps;
+        }
     }
 }

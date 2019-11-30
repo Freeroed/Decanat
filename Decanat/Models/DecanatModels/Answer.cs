@@ -67,11 +67,17 @@ namespace Decanat.Models.DecanatModels
                 }
             }
         }
-        //Конструкторы*************************************************
-        public Answer(string vkrName)
+
+
+        //****************************************************************
+        //Конструкторы
+        //****************************************************************
+        public Answer(int vkrId, int stepId) 
         {
-            //this.vkrName = vkrName;
+            this.vkrId = vkrId;
+            this.stepid = stepId;
         }
+        
 
         public Answer(int id)
         {

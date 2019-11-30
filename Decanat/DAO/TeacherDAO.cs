@@ -9,6 +9,7 @@ namespace Decanat.DAO
 {
     public class TeacherDAO: AbstractDAO
     {
+        //Получить ID учителя по email
         public int getTeacherId(string email)
         {
             Connect();
@@ -34,6 +35,7 @@ namespace Decanat.DAO
             return 0;
         }
 
+        //Добавление учителя
         public bool add(Teacher teacher)
         {
             bool result = true;

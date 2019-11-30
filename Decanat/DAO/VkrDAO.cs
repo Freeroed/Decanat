@@ -9,6 +9,8 @@ namespace Decanat.DAO
 {
     public class VkrDAO: AbstractDAO
     {
+
+        //Получить Название ВКР
         public string getVKRName(int id) //Реализовать!!
         {
             string s = "";
@@ -80,6 +82,7 @@ namespace Decanat.DAO
             return vkr;
         }
 
+        //Поиск ВКР по студенту
         public VKR getVKRbyStudent(int studentid)
         {
             VKR vkr = new VKR();
@@ -96,6 +99,69 @@ namespace Decanat.DAO
             }
             return vkr;
         }
+
+        public VKR getNewVKR(int studentId, int teacherId, int PlanId)
+        {
+            VKR newVKR = new VKR();
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT Id FROM VKR WHERE StudentId = @StudentId, PrepodId = @PrepodId, PlanId = @PlanId", Connection);
+                cmd.Parameters.Add(new SqlParameter("@StudentId", studentId));
+                cmd.Parameters.Add(new SqlParameter("@PrepodId", teacherId));
+                cmd.Parameters.Add(new SqlParameter("@PlanId", PlanId));
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["Id"]);
+                    newVKR.id = id;
+                }
+
+            }
+            catch(Exception e)
+            {
+
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return newVKR;
+        }
         
+        //Добавление ВКР
+        //Необходимо добавить в БД в Таблице ВКР ссылку на План-График
+        public bool add(VKR vkr)
+        {
+            bool result = true;
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("INSERT INTO VKR(Theme, StudentId, PrepodId, PlanId) VALUES (@Theme, @StudentId, @PrepodId, @PlanId)", Connection);
+                cmd.Parameters.Add(new SqlParameter("@Theme", vkr.theme));
+                cmd.Parameters.Add(new SqlParameter("@StudentId", vkr.studentId));
+                cmd.Parameters.Add(new SqlParameter("@PrepodId", vkr.teacherId));
+                cmd.Parameters.Add(new SqlParameter("@PlanId", vkr.planId));
+                cmd.ExecuteNonQuery();
+                StepDAO sDAO = new StepDAO();
+                int tempId = getNewVKR(vkr.studentId, vkr.teacherId, vkr.planId).id;
+                List<Step> steps = sDAO.getStepsByPlanId(vkr.planId);
+                AnswerDAO aDAO = new AnswerDAO();
+                foreach (Step item in steps)
+                {
+                    aDAO.add(new Answer(tempId,item.id));
+                }
+
+            }
+            catch(Exception e)
+            {
+                result = false;
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return result;
+        }
     }
 }
