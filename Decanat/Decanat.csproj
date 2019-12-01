@@ -271,6 +271,8 @@
     <Content Include="Views\Home\ShowAnswerInfo.cshtml" />
     <Content Include="Views\Home\AddStudent.cshtml" />
     <Content Include="Views\Home\AddTeacher.cshtml" />
+    <Content Include="Views\Home\AddPlan.cshtml" />
+    <Content Include="Views\Home\AddGroup.cshtml" />
     <None Include="Views\Home\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>

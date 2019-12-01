@@ -55,11 +55,11 @@ namespace Decanat.Models.DecanatModels
 
         }
 
-        public Plan(int groupId, int status)
+       /* public Plan(int groupId, int status)
         {
             this.gpoupId = groupId;
             this.status = status;
-        }
+        }*/
 
         public Plan(int id, int groupId, int status)
         {

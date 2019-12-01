@@ -15,6 +15,8 @@ namespace Decanat.Controllers
         AnswerDAO aDAO = new AnswerDAO();
         TeacherDAO tDAO = new TeacherDAO();
         GruppaDAO gDAO = new GruppaDAO();
+        PlanDAO pDAO = new PlanDAO();
+        StepDAO stepDAO = new StepDAO();
 
         //Стартовая страница
         public ActionResult Index()
@@ -71,6 +73,34 @@ namespace Decanat.Controllers
         {
             if (tDAO.add(teach)) return RedirectToAction("Index");
             else return View("AddTeacher");
+        }
+
+        //Добавление группы
+        public ActionResult AddGroup()
+        {
+            return View();
+        }
+        [Authorize(Roles = "decan,director")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddGroup([Bind(Exclude = "ID")] Gruppa grup)
+        {
+            if (gDAO.add(grup)) return RedirectToAction("Index");
+            else return View("AddGroup");
+        }
+
+
+        //Добавление плана-графика
+        public ActionResult AddPlan()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "decan,director")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddPlan([Bind(Exclude = "ID")] Plan plan )
+        {
+            if (pDAO.add(plan)) return RedirectToAction("Index");
+            else return View("AddPlan");
         }
 
 

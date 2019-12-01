@@ -53,6 +53,7 @@ namespace Decanat.DAO
                 cmd.Parameters.Add(new SqlParameter("@GroupNmae", gruppa.groupName));
                 cmd.Parameters.Add(new SqlParameter("@Bakalavr", gruppa.bakalavr));
                 cmd.Parameters.Add(new SqlParameter("@KafedraId", gruppa.kafedra));
+                cmd.ExecuteNonQuery();
             }
             catch(Exception e)
             {

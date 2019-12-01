@@ -18,15 +18,15 @@ namespace Decanat.DAO
             loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO Plan (GruppaId) VALUES (@GruppaId)", Connection);
-                cmd.Parameters.Add(new SqlParameter("@GruppaId",plan.gpoupId));
+                SqlCommand cmd = new SqlCommand("INSERT INTO Plun (GruppaId) VALUES (@GruppaId)", Connection);
+                cmd.Parameters.Add(new SqlParameter("@GruppaId", plan.gpoupId));
                 cmd.ExecuteNonQuery();
             }
             catch(Exception e)
             {
                 result = false;
                 loger.Error("Произошла ошибка при добавлении плана-графика");
-                loger.Trace(e.StackTrace);
+                //loger.Trace(e.StackTrace);
             }
             finally
             {
@@ -41,7 +41,7 @@ namespace Decanat.DAO
             loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Plan WHERE Status=@Status", Connection);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Plun WHERE Status=@Status", Connection);
                 cmd.Parameters.Add(new SqlParameter("@Status", status));
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
