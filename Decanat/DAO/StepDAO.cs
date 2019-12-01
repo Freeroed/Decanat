@@ -42,7 +42,7 @@ namespace Decanat.DAO
             Connect();
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO Step(Name, Date, PlanId) VALUES (@Name, @Date, @PlanId)");
+                SqlCommand cmd = new SqlCommand("INSERT INTO Step(Name, Date, PlanId) VALUES (@Name, @Date, @PlanId)", Connection);
                 cmd.Parameters.Add(new SqlParameter("@Name", step.name));
                 cmd.Parameters.Add(new SqlParameter("@Date", step.date));
                 cmd.Parameters.Add(new SqlParameter("@PlanId", step.planId));
@@ -67,7 +67,7 @@ namespace Decanat.DAO
             Connect();
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Step WHERE Id=@id");
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Step WHERE Id=@id", Connection);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -81,7 +81,7 @@ namespace Decanat.DAO
 
                 }
             }
-            catch
+            catch (Exception e)
             {
                 loger.Error("Произошла ошибка при запросе всех этапов плана");
                 loger.Trace(e.StackTrace);

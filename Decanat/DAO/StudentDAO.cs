@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Linq;
 using Decanat.Models.DecanatModels;
+using System.Diagnostics;
 
 namespace Decanat.DAO
 {
@@ -32,7 +33,7 @@ namespace Decanat.DAO
                 
             }
 
-            catch (Exception)
+            catch (Exception e)
             {
                 loger.Error("Произошла ошибка при запросе информации о студенте");
                 loger.Trace(e.StackTrace);
@@ -49,6 +50,7 @@ namespace Decanat.DAO
         public int getStudentId(string email)
         {
             int id = 0;
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
                 Connect();
@@ -78,9 +80,11 @@ namespace Decanat.DAO
         {
             bool result = true;
             Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO Student (Surname, FirstName, Patronymic, MobileNumber, Email, GruppaId) VALUES (@Surname, @FirstName, @Patronymic, @MobileNumber, @Email, @GruppaId)", Connection);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Student (Surname, FirstName, Patronymic, MobileNumber, Email, GruppaId) VALUES " +
+                    "(@Surname, @FirstName, @Patronymic, @MobileNumber, @Email, @GruppaId)", Connection);
                 cmd.Parameters.Add(new SqlParameter("@Surname", student.surname));
                 cmd.Parameters.Add(new SqlParameter("@FirstName", student.firstName));
                 cmd.Parameters.Add(new SqlParameter("@Patronymic", student.patronymic));

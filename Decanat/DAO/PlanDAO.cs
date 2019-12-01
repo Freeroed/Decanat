@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -14,6 +15,7 @@ namespace Decanat.DAO
         {
             bool result = true;
             Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
                 SqlCommand cmd = new SqlCommand("INSERT INTO Plan (GruppaId) VALUES (@GruppaId)", Connection);
@@ -36,9 +38,10 @@ namespace Decanat.DAO
         {
             Connect();
             List<Plan> plans = new List<Plan>();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Plan WHERE Status=@Status");
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Plan WHERE Status=@Status", Connection);
                 cmd.Parameters.Add(new SqlParameter("@Status", status));
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())

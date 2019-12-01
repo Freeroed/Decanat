@@ -130,7 +130,7 @@ namespace Decanat.DAO
             loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("UPDATE Answer SET Status=@status WHERE Id = @id");
+                SqlCommand cmd = new SqlCommand("UPDATE Answer SET Status=@status WHERE Id = @id", Connection);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 cmd.Parameters.Add(new SqlParameter("@sattus", status));
                 cmd.ExecuteNonQuery();

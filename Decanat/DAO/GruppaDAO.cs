@@ -18,7 +18,7 @@ namespace Decanat.DAO
             loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT Name FROM Gruppa WHERE Id=@id");
+                SqlCommand cmd = new SqlCommand("SELECT Name FROM Gruppa WHERE Id=@id", Connection);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())

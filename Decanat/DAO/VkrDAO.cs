@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -87,6 +88,8 @@ namespace Decanat.DAO
         {
             VKR vkr = new VKR();
             Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+
             try
             {
                 SqlCommand cmd = new SqlCommand("SELECT * FROM VKR WHERE StudentId=@stId", Connection);
@@ -117,6 +120,7 @@ namespace Decanat.DAO
         {
             VKR newVKR = new VKR();
             Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
                 SqlCommand cmd = new SqlCommand("SELECT Id FROM VKR WHERE StudentId = @StudentId, PrepodId = @PrepodId, PlanId = @PlanId", Connection);
@@ -148,6 +152,7 @@ namespace Decanat.DAO
         public bool add(VKR vkr)
         {
             bool result = true;
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             Connect();
             try
             {

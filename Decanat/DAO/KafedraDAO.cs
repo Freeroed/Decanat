@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -13,9 +14,10 @@ namespace Decanat.DAO
         public string getKafedraName(int id)
         {
             Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT Name FROM Kafedra WHERE id=@id");
+                SqlCommand cmd = new SqlCommand("SELECT Name FROM Kafedra WHERE id=@id", Connection);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
@@ -41,9 +43,10 @@ namespace Decanat.DAO
         {
             Kafedra kaf = new Kafedra();
             Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Kafedra WHERE id=@id");
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Kafedra WHERE id=@id", Connection);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())

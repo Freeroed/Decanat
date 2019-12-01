@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +14,7 @@ namespace Decanat.DAO
         public int getTeacherId(string email)
         {
             Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
                 SqlCommand cmd = new SqlCommand("SELECT Id FROM Prepod where email = @email", Connection);
@@ -41,6 +43,7 @@ namespace Decanat.DAO
         {
             bool result = true;
             Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
                 SqlCommand cmd = new SqlCommand("INSERT INTO Prepod (Surname, FirstName, Patronymic, Position, KafedraId, Email) VALUES (@Surname, @FirstName, @Patronymic, @Position, @KafedraId, @Email)",Connection);
