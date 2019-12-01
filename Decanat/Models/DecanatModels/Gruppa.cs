@@ -11,6 +11,8 @@ namespace Decanat.Models.DecanatModels
         public string groupName { get; set; }
         public bool bakalavr { get; set; }
         public int kafedra { get; set; }
+        public bool study { get; set; }
+        public bool isHasPlan { get; set; }
 
         //***********************************************************************************
         //Конструкторы
@@ -25,6 +27,15 @@ namespace Decanat.Models.DecanatModels
             this.groupName = gruppaName;
             this.bakalavr = bakalavr;
             this.kafedra = kafedra;
+        }
+
+        public Gruppa (string gruppaName, bool bakalavr, int kafedra, bool study, bool isHasPlan)
+        {
+            this.groupName = gruppaName;
+            this.bakalavr = bakalavr;
+            this.kafedra = kafedra;
+            this.study = study;
+            this.isHasPlan = isHasPlan;
         }
     }
 }

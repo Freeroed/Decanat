@@ -31,6 +31,8 @@ namespace Decanat.Models.DecanatModels
                         return "На ваполнении";
                     case 6:
                         return "Выполнен";
+                    case 7:
+                        return "На одобрении";
                     default:
                         return "Ошибка";
 

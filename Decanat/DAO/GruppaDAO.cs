@@ -18,12 +18,12 @@ namespace Decanat.DAO
             loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT Name FROM Gruppa WHERE Id=@id", Connection);
+                SqlCommand cmd = new SqlCommand("SELECT GroupName FROM Gruppa WHERE Id=@id", Connection);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    s = Convert.ToString(reader["Name"]);
+                    s = Convert.ToString(reader["GroupName"]);
                     loger.Info("Успешное получение информации о группе");
                     return s;
                 }
@@ -59,6 +59,33 @@ namespace Decanat.DAO
             {
                 result = false;
                 loger.Error("Произошла ошибка при добавлении группы");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return result;
+        }
+
+        //Добавление ПГ для группы
+        public bool sepPlanStatus(bool isHasPlan, int id)
+        {
+            bool result = true;
+            Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE Gruppa SET IsHasPlan = @isHasPlan WHERE Id = @id",Connection);
+                cmd.Parameters.Add(new SqlParameter("@isHasPlan",isHasPlan));
+                cmd.Parameters.Add(new SqlParameter("@id", id));
+                cmd.ExecuteNonQuery();
+                loger.Info("Успешное изменение статуса наличия ПГ у группы");
+            }
+            catch(Exception e)
+            {
+                result = false;
+                loger.Error("Произошла ошибка при изменении статуса наличия ПГ у группы");
                 loger.Trace(e.StackTrace);
             }
             finally

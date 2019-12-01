@@ -88,6 +88,24 @@ namespace Decanat.Controllers
             else return View("AddGroup");
         }
 
+        //Добавление этапа П-Г
+        public ActionResult AddStep()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "decan,director")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddStep([Bind(Exclude = "ID")] Step step, int id)
+        {
+            Step st = step;
+            st.planId = id;
+            if (stepDAO.Add(st)) {
+                int tId = id;
+                return RedirectToAction("ShowPlanInfo", new { id = tId}); 
+            }
+            else return View("AddStep");
+        }
 
         //Добавление плана-графика
         public ActionResult AddPlan()
@@ -102,6 +120,8 @@ namespace Decanat.Controllers
             if (pDAO.add(plan)) return RedirectToAction("Index");
             else return View("AddPlan");
         }
+
+
 
 
         //**********************************************************************
@@ -145,5 +165,7 @@ namespace Decanat.Controllers
 
             return View();
         }
+
+        
     }
 }

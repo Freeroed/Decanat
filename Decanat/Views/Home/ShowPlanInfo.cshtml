@@ -29,19 +29,25 @@
             Комментарий
         </th>
     </tr>
-    @foreach(var item in Model.steps)
+    @foreach (var item in Model.steps)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.date)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.comment)
-    </td>
-</tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.comment)
+            </td>
+        </tr>
     }
+    @if (Model.plan.status == 1)
+    {
+        @Html.ActionLink("Добавить этап", "AddStep", new { id = Model.plan.id })
+        @Html.ActionLink("Отменить", "")
+    }
+
 </table>
 
