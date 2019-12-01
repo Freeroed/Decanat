@@ -124,6 +124,14 @@ namespace Decanat.Controllers
             return View(vDAO.getAllVKR());
         }
 
+        public ActionResult ShowPlanInfo(int id)
+        {
+            Plan plan = pDAO.showPlanInfo(id);
+            List<Step> steps = stepDAO.getStepsByPlanId(id);
+            PlanAndStepsViewModel pASVM = new PlanAndStepsViewModel(plan, steps);
+            return View(pASVM);
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

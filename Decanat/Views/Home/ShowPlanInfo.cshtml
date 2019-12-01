@@ -1,0 +1,47 @@
+﻿@model Decanat.Models.DecanatModels.PlanAndStepsViewModel
+
+@{
+    ViewBag.Title = "ShowPlanInfo";
+}
+
+<h2>Здесь будет выводится информация о ПГ</h2>
+<h2>
+    @Html.DisplayFor(modelItem => Model.plan.id)
+</h2>
+<p>
+    План-График для группы: @Html.DisplayFor(modelItem =>Model.plan.getGroupName)
+</p>
+<p>
+    Имеет статус: @Html.DisplayFor(modelItem => Model.plan.getStatus)
+</p>
+<p>
+    Включает в себя следующие этапы
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Название этапа
+        </th>
+        <th>
+            Дата сдачи
+        </th>
+        <th>
+            Комментарий
+        </th>
+    </tr>
+    @foreach(var item in Model.steps)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.date)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.comment)
+    </td>
+</tr>
+    }
+</table>
+

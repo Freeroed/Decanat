@@ -194,6 +194,7 @@
     <Compile Include="Models\DecanatModels\Gruppa.cs" />
     <Compile Include="Models\DecanatModels\Kafedra.cs" />
     <Compile Include="Models\DecanatModels\Plan.cs" />
+    <Compile Include="Models\DecanatModels\PlanAndStepsViewModel.cs" />
     <Compile Include="Models\DecanatModels\Step.cs" />
     <Compile Include="Models\DecanatModels\Student.cs" />
     <Compile Include="Models\DecanatModels\Teacher.cs" />
@@ -273,6 +274,7 @@
     <Content Include="Views\Home\AddTeacher.cshtml" />
     <Content Include="Views\Home\AddPlan.cshtml" />
     <Content Include="Views\Home\AddGroup.cshtml" />
+    <Content Include="Views\Home\ShowPlanInfo.cshtml" />
     <None Include="Views\Home\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>

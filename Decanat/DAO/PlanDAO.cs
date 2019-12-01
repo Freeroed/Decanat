@@ -34,6 +34,7 @@ namespace Decanat.DAO
             }
             return result;
         }
+        //Поиск планов по статусу
         public List<Plan> showPlansByStatus(int status)
         {
             Connect();
@@ -60,6 +61,36 @@ namespace Decanat.DAO
                 Disconnect();
             }
             return plans;
+        }
+
+        public Plan showPlanInfo(int id)
+        {
+            Connect();
+            Plan plan = new Plan();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Plun WHERE Id=@Id", Connection);
+                cmd.Parameters.Add(new SqlParameter("@Id", id));
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    plan.id = Convert.ToInt32(reader["Id"]);
+                    plan.gpoupId = Convert.ToInt32(reader["GruppaId"]);
+                    plan.status = Convert.ToInt32(reader["Status"]);
+                    loger.Info("Успешный запрос информации о плане-графике");
+                } 
+            }
+            catch (Exception e)
+            {
+                loger.Error("Произошла ошибка при запросе плана-графика");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return plan;
         }
     }
 }

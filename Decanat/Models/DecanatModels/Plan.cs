@@ -13,25 +13,28 @@ namespace Decanat.Models.DecanatModels
         public int gpoupId { get; set; }
         public int status { get; set; }
 
-        public string getStatus()
+        public string getStatus
         {
-            switch (this.status)
+            get
             {
-                case 1:
-                    return "Создан";
-                case 2:
-                    return "Одобрен";
-                case 3:
-                    return "На исправлении";
-                case 4:
-                    return "Отменён";
-                case 5: 
-                    return "На ваполнении";
-                case 6:
-                    return "Выполнен";
-                default:
-                    return "Ошибка";
+                switch (this.status)
+                {
+                    case 1:
+                        return "Создан";
+                    case 2:
+                        return "Одобрен";
+                    case 3:
+                        return "На исправлении";
+                    case 4:
+                        return "Отменён";
+                    case 5:
+                        return "На ваполнении";
+                    case 6:
+                        return "Выполнен";
+                    default:
+                        return "Ошибка";
 
+                }
             }
           
         }
