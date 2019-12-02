@@ -24,6 +24,18 @@ namespace Decanat.Models.DecanatModels
             }
         }
 
+        public string getFIO
+        {
+            get
+            {
+                return surname + " " + firstName + " " + patronymic;
+            }
+        }
+
+        //***********************************************************************
+        //Конструкторы
+        //***********************************************************************
+
         public Student()
         {
 
@@ -48,11 +60,18 @@ namespace Decanat.Models.DecanatModels
             this.email = email;
             this.gruppaId = gruppaId;
         }
-
-
-        public string getFIO()
+        public Student (int id, string surname, string firstName, string patronymic, string mobileNomber, string email)
         {
-            return surname + " " + firstName + " " + patronymic;
+            this.id = id;
+            this.surname = surname;
+            this.firstName = firstName;
+            this.patronymic = patronymic;
+            this.mobileNomber = mobileNomber;
+            this.email = email;
         }
+
+
+
+        
     }
 }

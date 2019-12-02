@@ -276,6 +276,7 @@
     <Content Include="Views\Home\AddGroup.cshtml" />
     <Content Include="Views\Home\ShowPlanInfo.cshtml" />
     <Content Include="Views\Home\AddStep.cshtml" />
+    <Content Include="Views\Home\GetAllGrous.cshtml" />
     <None Include="Views\Home\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>

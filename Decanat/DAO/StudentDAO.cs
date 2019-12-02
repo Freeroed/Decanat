@@ -106,6 +106,41 @@ namespace Decanat.DAO
             return result;
         }
 
+        //Вывод всех студентов в группе
+        public List<Student> getAllStudentInProup(int groupId)
+        {
+            List<Student> students = new List<Student>();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Student WHERE GruppaId = @GruppaId", Connection);
+                cmd.Parameters.Add(new SqlParameter("@GruppaId", groupId));
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["Id"]);
+                    string surname = Convert.ToString(reader["Surname"]);
+                    string firstName = Convert.ToString(reader["FirstName"]);
+                    string patronymic = Convert.ToString(reader["Patronymic"]);
+                    string mobileNumber = Convert.ToString(reader["MobileNumber"]);
+                    string email = Convert.ToString(reader["Email"]);
+                    students.Add(new Student(id, surname, firstName, patronymic, mobileNumber, email));
+                }
+                loger.Info("Успешный заспрос информации о всех студентах в группе");
+            }
+            catch(Exception e)
+            {
+                loger.Error("Произошла ошибка при Запросе информации о всех студентах в группе");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return students;
+        }
+
     }
        
     

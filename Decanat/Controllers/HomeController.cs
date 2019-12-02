@@ -108,9 +108,17 @@ namespace Decanat.Controllers
         }
 
         //Добавление плана-графика
-        public ActionResult AddPlan()
+        public ActionResult AddPlan(int groupId)
         {
-            return View();
+            Plan plan = new Plan(groupId);
+            pDAO.add(plan);
+            gDAO.sepPlanStatus(true, groupId);
+            plan = pDAO.showPlanInfoByGropId(groupId);
+            //List<Step> steps = new List<Step>();
+            //List<Step> steps = stepDAO.getStepsByPlanId(plan.id);
+            //PlanAndStepsViewModel pASVM = new PlanAndStepsViewModel(plan, steps);
+            
+            return RedirectToAction("ShowPlanInfo", new { id = plan.id });
         }
 
         [Authorize(Roles = "decan,director")]
@@ -144,6 +152,7 @@ namespace Decanat.Controllers
             return View(vDAO.getAllVKR());
         }
 
+        //Просмотр информации о плане
         public ActionResult ShowPlanInfo(int id)
         {
             Plan plan = pDAO.showPlanInfo(id);
@@ -152,6 +161,7 @@ namespace Decanat.Controllers
             return View(pASVM);
         }
 
+        //Просмор всех групп
         public ActionResult GetAllGrous()
         {
             List<Gruppa> groups = gDAO.getAllGroups();

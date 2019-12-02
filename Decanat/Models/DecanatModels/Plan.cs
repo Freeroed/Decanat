@@ -8,7 +8,7 @@ namespace Decanat.Models.DecanatModels
 {
     public class Plan
         
-    {//Есть изменения
+    {
         public int id { get; set; }
         public int gpoupId { get; set; }
         public int status { get; set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Decanat.DAO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,55 @@ namespace Decanat.Models.DecanatModels
         public int kafedra { get; set; }
         public bool study { get; set; }
         public bool isHasPlan { get; set; }
+        public string getLivel
+        {
+            get
+            {
+                if (bakalavr)
+                { return "Бакалавриат"; }
+                else
+                { return "Магистратура"; }
+            }
+        }
+
+        public string isStudy
+        {
+            get
+            {
+                if (study)
+                {
+                    return "Обучается";
+                }
+                else
+                {
+                    return "Обучение завершено";
+                }
+            }
+        }
+
+        public string getIsHasPlan
+        {
+            get
+            {
+                if (isHasPlan)
+                {
+                    return "Есть Пла-График";
+                }
+                else
+                {
+                    return "План-график не добавлен";
+                }
+            }
+        }
+
+        public string getKafedraName
+        {
+            get
+            {
+                KafedraDAO kDAO = new KafedraDAO();
+                return kDAO.getKafedraName(kafedra);
+            }
+        }
 
         //***********************************************************************************
         //Конструкторы
