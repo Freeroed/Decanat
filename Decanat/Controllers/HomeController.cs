@@ -152,6 +152,12 @@ namespace Decanat.Controllers
             return View(pASVM);
         }
 
+        public ActionResult GetAllGrous()
+        {
+            List<Gruppa> groups = gDAO.getAllGroups();
+            return View(groups);
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

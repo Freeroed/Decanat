@@ -29,8 +29,9 @@ namespace Decanat.Models.DecanatModels
             this.kafedra = kafedra;
         }
 
-        public Gruppa (string gruppaName, bool bakalavr, int kafedra, bool study, bool isHasPlan)
+        public Gruppa (int id, string gruppaName, bool bakalavr, int kafedra, bool study, bool isHasPlan)
         {
+            this.id = id;
             this.groupName = gruppaName;
             this.bakalavr = bakalavr;
             this.kafedra = kafedra;

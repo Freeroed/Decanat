@@ -94,5 +94,38 @@ namespace Decanat.DAO
             }
             return result;
         }
+
+        public List<Gruppa> getAllGroups()
+        {
+            List<Gruppa> groups = new List<Gruppa>();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Gruppa WHERE Study = 1",Connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["Id"]);
+                    String gruppaName = Convert.ToString(reader["GruppaName"]);
+                    bool bakalavr = Convert.ToBoolean(reader["Bakalavr"]);
+                    int kafedra = Convert.ToInt32(reader["KafedraId"]);
+                    bool study = Convert.ToBoolean(reader["Study"]);
+                    bool isHasPlan = Convert.ToBoolean(reader["IsHasPlan"]);
+                    groups.Add(new Gruppa(id,gruppaName,bakalavr,kafedra,study,isHasPlan));
+                }
+                loger.Info("Успешное получение информации о группах");
+            }
+            catch(Exception e)
+            {
+                loger.Error("Произошла ошибка при запросе информации о группах");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return groups;
+        }
     }
 }
