@@ -35,10 +35,19 @@ namespace Decanat.Controllers
                 int id = tDAO.getTeacherId(User.Identity.Name);
                 ViewAnswerAndVKR vav = new ViewAnswerAndVKR(aDAO.getLastAnswers(id), id);
                 return View(vav);
-            } else
-            {
-                return View();
-            }
+            } else 
+            
+                if (User.IsInRole("director"))
+                {
+                List<Plan> plans = pDAO.showPlansByStatus(7);
+                ViewAnswerAndVKR vav = new ViewAnswerAndVKR(plans);
+                return View(vav);
+                }
+                else
+                {
+                    return View();
+                }
+
 
 
         }
@@ -157,8 +166,9 @@ namespace Decanat.Controllers
         //Просмотр информации о плане
         public ActionResult ShowPlanInfo(int id)
         {
-            Plan plan = pDAO.showPlanInfo(id);
-            List<Step> steps = stepDAO.getStepsByPlanId(id);
+            int tId = id;
+            Plan plan = pDAO.showPlanInfo(tId);
+            List<Step> steps = stepDAO.getStepsByPlanId(tId);
             PlanAndStepsViewModel pASVM = new PlanAndStepsViewModel(plan, steps);
             return View(pASVM);
         }
@@ -178,7 +188,14 @@ namespace Decanat.Controllers
             StudentsInGroupView sIGV = new StudentsInGroupView(group, students);
             return View(sIGV);
         }
-
+        //************************************************************************************************
+        //Изменение
+        //************************************************************************************************
+        public ActionResult SetPlanStatus(int id, int status)
+        {
+            if (pDAO.setStatus(id, status)) return RedirectToAction("ShowPlanInfo", new { id = id });
+            else return View("Index");  //Добавить страницу с ошибкой******************************************
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

@@ -61,23 +61,9 @@ else
             {
                 <h2>Я Декан</h2>
                 <p>
-                    @Html.ActionLink("Добавление студента", "AddStudent")
-                </p>
-                <p>
                     @Html.ActionLink("Добавление преподавателя", "AddTeacher")
                 </p>
-                <p>
-                    @Html.ActionLink("Просмотр всех планов-графиков", "")
-                </p>
-                <p>
-                    @Html.ActionLink("Создание плана-Графика", "AddPlan")
-                </p>
-                <p>
-                    @Html.ActionLink("Добавление группы", "AddGroup")
-                </p>
-                <p>
-                    @Html.ActionLink("тыкни", "ShowPlanInfo", new { id = 2 })
-                </p>
+
                 <p>
                     @Html.ActionLink("Просмотр всех групп", "GetAllGrous")
                 </p>
@@ -89,21 +75,37 @@ else
                 if (User.IsInRole("director"))
                 {
                     <h2>Я Директор, мне необходимо сделать частичное представление как у студента и препода</h2>
-                    <p>
-                        @Html.ActionLink("Добавление студента", "AddStudent")
-                    </p>
+
                     <p>
                         @Html.ActionLink("Добавление преподавателя", "AddTeacher")
                     </p>
                     <p>
-                        @Html.ActionLink("Просмотр всех вланов-графиков", "")
-                    </p>
-                    <p>
-                        @Html.ActionLink("Создание плана-Графика", "AddPlan")
-                    </p>
-                    <p>
                         @Html.ActionLink("Утверждение плана-графика", "")
                     </p>
+                    <p>
+                        На отверждение были отправлены Планы-Графики на следующих групп
+                    </p>
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Группа
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                        @foreach(var item in Model.plans)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.getGroupName)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Подробнее", "ShowPlanInfo", new { id = item.id})
+                                </td>
+                            </tr>
+                        }
+                    </table>
 
                 }
                 else

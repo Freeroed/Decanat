@@ -24,16 +24,19 @@ else
     if (Model.group.isHasPlan)
     {
         <p>Для группы создан план-график</p>
+        <p>
+            @Html.ActionLink("Посмотреть план", "ShowPlanInfo", new { id = Model.group.id })
+        </p>
     }
     else
     {
-        if(User.IsInRole("decan") | User.IsInRole("director"))
+        if (User.IsInRole("decan") | User.IsInRole("director"))
         {
             <p>Для группы не создан План-график</p>
             <p> @Html.ActionLink("Создать ПГ", "AddPlan", new { id = Model.group.id })</p>
         }
     }
-    @Html.ActionLink("Добавить студента","AddStudent", new { groupId = Model.group.id})
+    @Html.ActionLink("Добавить студента", "AddStudent", new { groupId = Model.group.id })
 }
 <p>
     В группе обучаются следубщие студенты
@@ -47,24 +50,26 @@ else
         {
             <th>
                 Номер телефона
-            </th> }
-        </tr>
+            </th>
+}
+    </tr>
     @foreach (var item in Model.students)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.getFIO)
-    </td>
-    @if (User.IsInRole("decan") | User.IsInRole("director") | User.IsInRole("teacher"))
-    {
-        <td>
-            +7 @Html.DisplayFor(modelItem => item.mobileNomber)
-        </td>
-
+        <tr>
             <td>
-                @Html.ActionLink("Подробнее", "")
-            </td>}
-    </tr>
+                @Html.DisplayFor(modelItem => item.getFIO)
+            </td>
+            @if (User.IsInRole("decan") | User.IsInRole("director") | User.IsInRole("teacher"))
+            {
+                <td>
+                    +7 @Html.DisplayFor(modelItem => item.mobileNomber)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Подробнее", "")
+                </td>
+}
+        </tr>
     }
 </table>
 

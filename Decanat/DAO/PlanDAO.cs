@@ -47,8 +47,10 @@ namespace Decanat.DAO
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    int id = Convert.ToInt32(reader["Id"]);
                     int gruoupId = Convert.ToInt32(reader["GruppaId"]);
-                    plans.Add(new Plan(gruoupId));
+                    int st = Convert.ToInt32(reader["Status"]);
+                    plans.Add(new Plan(id, gruoupId, st));
                 }
             }
             catch(Exception e)
@@ -63,6 +65,7 @@ namespace Decanat.DAO
             return plans;
         }
 
+        //Вывод информации о ПГ
         public Plan showPlanInfo(int id)
         {
             Connect();
@@ -121,6 +124,33 @@ namespace Decanat.DAO
                 Disconnect();
             }
             return plan;
+        }
+
+        //Сменить статус плана
+        public bool setStatus(int id, int status)
+        {
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            bool result = true;
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE Plun SET Status = @status WHERE Id = @id", Connection);
+                cmd.Parameters.Add(new SqlParameter("@Id", id));
+                cmd.Parameters.Add(new SqlParameter("@status", status));
+                cmd.ExecuteNonQuery();
+                loger.Info("Успешное изменение статуса ПГ");
+            }
+            catch(Exception e)
+            {
+                result = false;
+                loger.Error("Произошла ошибка при изменении статуса ПГ");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return result;
         }
     }
 }

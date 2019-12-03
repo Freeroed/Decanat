@@ -3,51 +3,70 @@
 @{
     ViewBag.Title = "ShowPlanInfo";
 }
-
-<h2>Здесь будет выводится информация о ПГ</h2>
-<h2>
-    @Html.DisplayFor(modelItem => Model.plan.id)
-</h2>
-<p>
-    План-График для группы: @Html.DisplayFor(modelItem =>Model.plan.getGroupName)
-</p>
-<p>
-    Имеет статус: @Html.DisplayFor(modelItem => Model.plan.getStatus)
-</p>
-<p>
-    Включает в себя следующие этапы
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Название этапа
-        </th>
-        <th>
-            Дата сдачи
-        </th>
-        <th>
-            Комментарий
-        </th>
-    </tr>
-    @foreach (var item in Model.steps)
+@if (User.IsInRole("teacher") | User.IsInRole("decan") | User.IsInRole("director"))
+{
+    <h2>Здесь будет выводится информация о ПГ</h2>
+    <h2>
+        @Html.DisplayFor(modelItem => Model.plan.id)
+    </h2>
+    <p>
+        План-График для группы: @Html.DisplayFor(modelItem => Model.plan.getGroupName)
+    </p>
+    <p>
+        Имеет статус: @Html.DisplayFor(modelItem => Model.plan.getStatus)
+    </p>
+    if (Model.plan.status == 1 & User.IsInRole("decan"))
     {
+        <p>
+            @Html.ActionLink("Отправить на утверждение", "SetPlanStatus", new { id = Model.plan.id, status = 7 })
+        </p>
+    }
+    if (User.IsInRole("director") & Model.plan.status == 7)
+    {
+        <p>
+            @Html.ActionLink("Утвердить", "SetPlanStatus", new { id = Model.plan.id, status = 2})
+        </p>
+        <p>
+            @Html.ActionLink("Отправить на исправление", "SetPlanStatus", new { id = Model.plan.id, status = 3})
+        </p>
+    }
+    <p>
+        Включает в себя следующие этапы
+    </p>
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.comment)
-            </td>
+            <th>
+                Название этапа
+            </th>
+            <th>
+                Дата сдачи
+            </th>
+            <th>
+                Комментарий
+            </th>
         </tr>
-    }
-    @if (Model.plan.status == 1)
+        @foreach (var item in Model.steps)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.comment)
+                </td>
+            </tr>
+        }
+        @if (Model.plan.status == 1)
+        {
+            @Html.ActionLink("Добавить этап", "AddStep", new { id = Model.plan.id })
+        }
+
+    </table>
+    if (Model.plan.status == 1 & User.IsInRole("decan"))
     {
-        @Html.ActionLink("Добавить этап", "AddStep", new { id = Model.plan.id })
-        @Html.ActionLink("Отменить", "")
+        @Html.ActionLink("Отменить", "SetPlanStatus", new { id = Model.plan.id, status = 4})
     }
-
-</table>
-
+}
