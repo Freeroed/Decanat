@@ -197,6 +197,7 @@
     <Compile Include="Models\DecanatModels\PlanAndStepsViewModel.cs" />
     <Compile Include="Models\DecanatModels\Step.cs" />
     <Compile Include="Models\DecanatModels\Student.cs" />
+    <Compile Include="Models\DecanatModels\StudentsInGroupView.cs" />
     <Compile Include="Models\DecanatModels\Teacher.cs" />
     <Compile Include="Models\DecanatModels\ViewAnswerAndVKR.cs" />
     <Compile Include="Models\DecanatModels\VKR.cs" />
@@ -277,6 +278,7 @@
     <Content Include="Views\Home\ShowPlanInfo.cshtml" />
     <Content Include="Views\Home\AddStep.cshtml" />
     <Content Include="Views\Home\GetAllGrous.cshtml" />
+    <Content Include="Views\Home\GetGroupInfo.cshtml" />
     <None Include="Views\Home\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>

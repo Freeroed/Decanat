@@ -55,9 +55,11 @@ namespace Decanat.Controllers
 
         [Authorize(Roles ="decan,director")]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AddStudent([Bind(Exclude = "ID")] Student st)
+        public ActionResult AddStudent([Bind(Exclude = "ID")] Student st, int groupId)
         {
-            if (sDAO.add(st)) return RedirectToAction("Index");
+            Student student = st;
+            student.gruppaId = groupId;
+            if (sDAO.add(st)) return RedirectToAction("GetGroupInfo", new { id = groupId });
             else return View("AddStudent");
         }
 
@@ -166,6 +168,15 @@ namespace Decanat.Controllers
         {
             List<Gruppa> groups = gDAO.getAllGroups();
             return View(groups);
+        }
+
+        //Вывод информации о группе
+        public ActionResult GetGroupInfo(int id)
+        {
+            List<Student> students = sDAO.getAllStudentInProup(id);
+            Gruppa group = gDAO.getGroupInfo(id);
+            StudentsInGroupView sIGV = new StudentsInGroupView(group, students);
+            return View(sIGV);
         }
 
         public ActionResult About()

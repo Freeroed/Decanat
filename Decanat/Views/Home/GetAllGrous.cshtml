@@ -48,7 +48,7 @@
                     @Html.ActionLink("Добавить ПГ ", "AddPlan", new { groupId = item.id })  
                 }                    
                 |
-                @Html.ActionLink(" Подробнее","")
+                @Html.ActionLink(" Подробнее","GetGroupInfo", new { id = item.id})
             </td>
         </tr>
     }
