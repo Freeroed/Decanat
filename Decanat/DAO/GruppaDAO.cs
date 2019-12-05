@@ -129,6 +129,41 @@ namespace Decanat.DAO
             return groups;
         }
 
+        //Запрос списка всех групп
+        public List<Gruppa> getAllGroupsByKafedra(int kafedraId)
+        {
+            List<Gruppa> groups = new List<Gruppa>();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Gruppa WHERE Study = 1 AND KafedraId = @id", Connection);
+                cmd.Parameters.Add(new SqlParameter("@id", kafedraId));
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["Id"]);
+                    string gruppaName = Convert.ToString(reader["GroupName"]);
+                    bool bakalavr = Convert.ToBoolean(reader["Backlavr"]);
+                    int kafedra = Convert.ToInt32(reader["KafedraId"]);
+                    bool study = Convert.ToBoolean(reader["Study"]);
+                    bool isHasPlan = Convert.ToBoolean(reader["IsHasPlan"]);
+                    groups.Add(new Gruppa(id, gruppaName, bakalavr, kafedra, study, isHasPlan));
+                }
+                loger.Info("Успешное получение информации о группах");
+            }
+            catch (Exception e)
+            {
+                loger.Error("Произошла ошибка при запросе информации о группах");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return groups;
+        }
+
         //Запрос доступных плана для группы
         public Plan getPlansForGroup(int groupid)
         {

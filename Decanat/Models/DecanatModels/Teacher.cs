@@ -16,7 +16,7 @@ namespace Decanat.Models.DecanatModels
         public string email { get; set; }
 
 
-        public Teacher(int id, string surname, string firstName, string patr, string position, int kafedra)
+        public Teacher(int id, string surname, string firstName, string patr, string position, int kafedra, string email)
         {
             this.id = id;
             this.surname = surname;
@@ -24,6 +24,7 @@ namespace Decanat.Models.DecanatModels
             this.patronymic = patr;
             this.position = position;
             this.kafedraId = kafedra;
+            this.email = email;
         }
         public Teacher( string surname, string firstName, string patr, string position, int kafedra)
         {

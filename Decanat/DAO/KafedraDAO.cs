@@ -67,5 +67,36 @@ namespace Decanat.DAO
             }
             return kaf;
         }
+
+        //Список всех кафедр
+        public List<Kafedra> getAllKafedras()
+        {
+            List<Kafedra> kafedras = new List<Kafedra>();
+            Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Kafedra",Connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["Id"]);
+                    string name = Convert.ToString(reader["Name"]);
+                    string email = Convert.ToString(reader["email"]);
+                    kafedras.Add(new Kafedra(id,name,email));
+                }
+                loger.Info("Успешное получение информации о всех кафедрах");
+            }
+            catch(Exception e)
+            {
+                loger.Error("Произошла ошибка при запросе инфаормации о группе");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return kafedras;
+        }
     }
 }

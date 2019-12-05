@@ -67,5 +67,42 @@ namespace Decanat.DAO
             }
             return result;
         }
+        
+        public List<Teacher> getAllTeachersByKafedra(int id)
+        {
+            List<Teacher> teachers = new List<Teacher>();
+            Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Prepod WHERE KafedraId = @id",Connection);
+                cmd.Parameters.Add(new SqlParameter("@id", id));
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int tId = Convert.ToInt32(reader["Id"]);
+                    string surname = Convert.ToString(reader["Surname"]);
+                    string firstName = Convert.ToString(reader["FirsName"]);
+                    string patronymic = Convert.ToString(reader["Patronymic"]);
+                    string position = Convert.ToString(reader["Position"]);
+                    string email = Convert.ToString(reader["email"]);
+                    int kafedraId = Convert.ToInt32(reader["kafedraId"]);
+                    teachers.Add(new Teacher(tId, surname,firstName,patronymic,position,kafedraId,email));
+                }
+                loger.Info("Успешный запрос данных о преподавателях");
+            }
+            catch(Exception e)
+            {
+                loger.Error("Произошла ошибка при добавлнеии преподавателя");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return teachers;
+        }
     }
+
+     
 }

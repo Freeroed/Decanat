@@ -17,6 +17,7 @@ namespace Decanat.Controllers
         GruppaDAO gDAO = new GruppaDAO();
         PlanDAO pDAO = new PlanDAO();
         StepDAO stepDAO = new StepDAO();
+        KafedraDAO kDAO = new KafedraDAO();
 
         //Стартовая страница
         public ActionResult Index()
@@ -45,7 +46,11 @@ namespace Decanat.Controllers
                 }
                 else
                 {
-                    return View();
+                if (User.IsInRole("decan")) {
+                    List<Kafedra> kafedras = kDAO.getAllKafedras();
+                    ViewAnswerAndVKR vav = new ViewAnswerAndVKR(kafedras);
+                    return View(vav); 
+                } else return View();
                 }
 
 
@@ -80,8 +85,10 @@ namespace Decanat.Controllers
 
         [Authorize(Roles = "decan,director")]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AddTeacher([Bind(Exclude = "ID")] Teacher teach)
+        public ActionResult AddTeacher([Bind(Exclude = "ID")] Teacher teach, int kafedraid)
         {
+            Teacher teacher = teach;
+            teacher.kafedraId = kafedraid;
             if (tDAO.add(teach)) return RedirectToAction("Index");
             else return View("AddTeacher");
         }
@@ -93,9 +100,11 @@ namespace Decanat.Controllers
         }
         [Authorize(Roles = "decan,director")]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AddGroup([Bind(Exclude = "ID")] Gruppa grup)
+        public ActionResult AddGroup([Bind(Exclude = "ID")] Gruppa grup, int id)
         {
-            if (gDAO.add(grup)) return RedirectToAction("Index");
+            Gruppa group = grup;
+            group.kafedra = id;
+            if (gDAO.add(group)) return RedirectToAction("getKafedraInfo", new { id = id});
             else return View("AddGroup");
         }
 
@@ -187,6 +196,22 @@ namespace Decanat.Controllers
             Gruppa group = gDAO.getGroupInfo(id);
             StudentsInGroupView sIGV = new StudentsInGroupView(group, students);
             return View(sIGV);
+        }
+        //Вовыд информации о кафедре и группах
+        public ActionResult getKafedraInfo(int id)
+        {
+            Kafedra kafedra = kDAO.getKafedraInfo(id);
+            List<Gruppa> groups = gDAO.getAllGroupsByKafedra(id);
+            GroupsInKafedra gIK = new GroupsInKafedra(groups,kafedra);
+            return View(gIK);
+        }
+        //Все преподаватели кафедры
+        public ActionResult getTeachersInKafedra(int id)
+        {
+            Kafedra kafedra = kDAO.getKafedraInfo(id);
+            List<Teacher> teachers = tDAO.getAllTeachersByKafedra(id);
+            TeachersInKafedraView tIKV = new TeachersInKafedraView(kafedra, teachers);
+            return View(tIKV);
         }
         //************************************************************************************************
         //Изменение

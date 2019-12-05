@@ -11,6 +11,7 @@ namespace Decanat.Models.DecanatModels
         public VKR vkr;
         public int id;
         public List<Plan> plans;
+        public List<Kafedra> kafedras;
 
         public ViewAnswerAndVKR(List<Answer> answers, VKR vkr)
         {
@@ -39,6 +40,12 @@ namespace Decanat.Models.DecanatModels
         public ViewAnswerAndVKR(List<Plan> plans)
         {
             this.plans = plans;
+        }
+
+
+        public ViewAnswerAndVKR(List<Kafedra> kafedras)
+        {
+            this.kafedras = kafedras;
         }
     }
 }
