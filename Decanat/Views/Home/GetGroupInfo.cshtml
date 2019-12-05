@@ -33,7 +33,7 @@ else
         if (User.IsInRole("decan") | User.IsInRole("director"))
         {
             <p>Для группы не создан План-график</p>
-            <p> @Html.ActionLink("Создать ПГ", "AddPlan", new { id = Model.group.id })</p>
+            <p> @Html.ActionLink("Создать ПГ", "AddPlan", new { groupId = Model.group.id })</p>
         }
     }
     @Html.ActionLink("Добавить студента", "AddStudent", new { groupId = Model.group.id })
