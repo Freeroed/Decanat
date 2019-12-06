@@ -1,11 +1,33 @@
 ﻿@model Decanat.Models.DecanatModels.Student
-
 @{
     ViewBag.Title = "getStudentInfo";
 }
 
-<h2>getStudentInfo</h2>
+<h2>Необходимо доработать дизайн</h2>
+
 <p>
     ФИО @Html.DisplayFor(ModelItem => Model.getFIO)
+</p>
+<p>
+        @Html.DisplayFor(ModelItem => Model.getIsHasVKR)
+</p>
+<p>
+    @if (Model.isHasVKR)
+    {
+        @Html.ActionLink("Посмотреть","")
+    }
+    else
+    {
+        if (Model.isPlanAproved)
+        {
+            @Html.ActionLink("Добавить ВКР","addVKR", new { studentId = Model.id, gruppaId = Model.gruppaId})
+        }
+        else
+        {
+            <p>
+            План график ещё не утверждён. дождитесь утверждения
+                </p>
+        }
+    }
 </p>
 

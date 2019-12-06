@@ -46,7 +46,7 @@ namespace Decanat.Models.DecanatModels
             {
                 if (isHasPlan)
                 {
-                    return "Есть Пла-График";
+                    return "Есть План-График";
                 }
                 else
                 {
@@ -63,6 +63,8 @@ namespace Decanat.Models.DecanatModels
                 return kDAO.getKafedraName(kafedra);
             }
         }
+
+        
 
         //***********************************************************************************
         //Конструкторы

@@ -203,6 +203,7 @@
     <Compile Include="Models\DecanatModels\TeachersInKafedraView.cs" />
     <Compile Include="Models\DecanatModels\ViewAnswerAndVKR.cs" />
     <Compile Include="Models\DecanatModels\VKR.cs" />
+    <Compile Include="Models\DecanatModels\GroupAndStudentView.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

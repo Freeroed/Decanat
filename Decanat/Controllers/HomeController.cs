@@ -167,14 +167,17 @@ namespace Decanat.Controllers
         {
             return View();
         }
-        [Authorize(Roles = "decan,director")]
+        [Authorize(Roles = "decan,director, teacher")]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult addVKR([Bind(Exclude = "ID")] VKR vkr, int studentId)
+        public ActionResult addVKR([Bind(Exclude = "ID")] VKR vkr, int studentId, int gruppaId)
         {
             VKR newVKR = vkr;
             newVKR.studentId = studentId;
+            int groupId = gDAO.getGroupInfo(gruppaId).id;
             int teacherid = tDAO.getTeacherId(User.Identity.Name);
+            int planId = pDAO.showPlanInfoByGropId(groupId).id;
             newVKR.teacherId = teacherid;
+            newVKR.planId = planId;
             if (vDAO.add(newVKR))
             {
                 return View("Index");
@@ -194,6 +197,8 @@ namespace Decanat.Controllers
         public ActionResult getStudentInfo(int id)
         {
             Student student = sDAO.getStudentInfo(id);
+           // Gruppa gruppa = gDAO.getGroupInfo(student.gruppaId);
+           // GroupAndStudentView gASV = new GroupAndStudentView(student, gruppa);
             return View(student);
         }
         //Подробная информация о представленном ответе
@@ -273,7 +278,8 @@ namespace Decanat.Controllers
 
             return View();
         }
-
         
+
+
     }
 }

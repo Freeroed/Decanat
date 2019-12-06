@@ -23,6 +23,14 @@ namespace Decanat.Models.DecanatModels
                 return gDAO.getGruppaName(this.id);
             }
         }
+        public bool isHasVKR { get; set; }
+        public string getIsHasVKR {
+            get
+            {
+                if (isHasVKR) return "Уже работает над ВКР";
+                else return "Данные о ВКР пока не добавлены";
+            }
+                }
 
         public string getFIO
         {
@@ -35,7 +43,21 @@ namespace Decanat.Models.DecanatModels
         //***********************************************************************
         //Конструкторы
         //***********************************************************************
-
+        public bool isPlanAproved
+        {
+            get
+            {
+                PlanDAO pDAO = new PlanDAO();
+                if (pDAO.showPlanInfoByGropId(gruppaId).status == 2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
         public Student()
         {
 

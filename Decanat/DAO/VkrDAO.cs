@@ -123,7 +123,7 @@ namespace Decanat.DAO
             loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT Id FROM VKR WHERE StudentId = @StudentId, PrepodId = @PrepodId, PlanId = @PlanId", Connection);
+                SqlCommand cmd = new SqlCommand("SELECT Id FROM VKR WHERE StudentId = @StudentId AND PrepodId = @PrepodId AND PlanId = @PlanId", Connection);
                 cmd.Parameters.Add(new SqlParameter("@StudentId", studentId));
                 cmd.Parameters.Add(new SqlParameter("@PrepodId", teacherId));
                 cmd.Parameters.Add(new SqlParameter("@PlanId", PlanId));
@@ -133,6 +133,7 @@ namespace Decanat.DAO
                     int id = Convert.ToInt32(reader["Id"]);
                     newVKR.id = id;
                 }
+            loger.Info(newVKR.id);
 
             }
             catch(Exception e)
@@ -162,6 +163,7 @@ namespace Decanat.DAO
                 cmd.Parameters.Add(new SqlParameter("@PrepodId", vkr.teacherId));
                 cmd.Parameters.Add(new SqlParameter("@PlanId", vkr.planId));
                 cmd.ExecuteNonQuery();
+            loger.Info(vkr.theme + " " + vkr.teacherId + " " + vkr.studentId + " " + vkr.planId);
                 StepDAO sDAO = new StepDAO();
                 int tempId = getNewVKR(vkr.studentId, vkr.teacherId, vkr.planId).id;
                 List<Step> steps = sDAO.getStepsByPlanId(vkr.planId);
