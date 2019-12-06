@@ -22,14 +22,12 @@ namespace Decanat.Models.DecanatModels
                     case 1:
                         return "Создан";
                     case 2:
-                        return "Одобрен";
+                        return "На ваполнении";
                     case 3:
                         return "На исправлении";
                     case 4:
                         return "Отменён";
                     case 5:
-                        return "На ваполнении";
-                    case 6:
                         return "Выполнен";
                     case 7:
                         return "На одобрении";

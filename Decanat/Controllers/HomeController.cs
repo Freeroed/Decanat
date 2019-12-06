@@ -149,8 +149,18 @@ namespace Decanat.Controllers
             else return View("AddPlan");
         }
 
+        //Добавление кафедры
+        public ActionResult AddKafedra()
+        {
+            return View();
+        }
 
-
+        [Authorize(Roles = "decan,director")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddKafedra([Bind(Exclude = "ID")] Kafedra kafedra)
+        {
+            if (kDAO.add(kafedra)) return View("Index"); else return View("AddKafedra"); ;
+        }
 
         //**********************************************************************
         //Предоставление информации

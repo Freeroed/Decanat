@@ -283,6 +283,7 @@
     <Content Include="Views\Home\GetGroupInfo.cshtml" />
     <Content Include="Views\Home\getTeachersInKafedra.cshtml" />
     <Content Include="Views\Home\getKafedraInfo.cshtml" />
+    <Content Include="Views\Home\AddKafedra.cshtml" />
     <None Include="Views\Home\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>

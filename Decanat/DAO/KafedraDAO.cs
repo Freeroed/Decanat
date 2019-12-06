@@ -98,5 +98,31 @@ namespace Decanat.DAO
             }
             return kafedras;
         }
+
+        public bool add(Kafedra kafedra)
+        {
+            bool result = true;
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("INSERT INTO Kafedra(Name, email) VALUES (@Name, @email)", Connection);
+                cmd.Parameters.Add(new SqlParameter("@Name", kafedra.name));
+                cmd.Parameters.Add(new SqlParameter("@email", kafedra.email)); ;
+                cmd.ExecuteNonQuery();
+                loger.Info("Успешное добавление кафедры" + kafedra.name);
+            }
+            catch(Exception e)
+            {
+                result = false;
+                loger.Error("Произошла ошибка при запросе инфаормации о группе");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return result;
+        }
     }
 }
