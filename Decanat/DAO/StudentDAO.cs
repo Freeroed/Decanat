@@ -13,24 +13,27 @@ namespace Decanat.DAO
     {
         
         //Получение информации о студенте
-        public string getStudentInfo(int id)
+        public Student getStudentInfo(int id)
         {
-             string s = "";
+            Student st = new Student();
             Connect();
             try
             {
                 SqlCommand cmd = new SqlCommand("SELECT * FROM Student WHERE Id =@id", Connection);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
                 int tId = Convert.ToInt32(reader["Id"]);
                 string tSurname = Convert.ToString(reader["Surname"]);
                 string tFirstName = Convert.ToString(reader["FirstName"]);
                 string tPanronymic = Convert.ToString(reader["Patronymic"]);
-                string tMobileNomber = Convert.ToString(reader["MobileNomber"]);
+                string tMobileNomber = Convert.ToString(reader["MobileNumber"]);
                 string tEmail = Convert.ToString(reader["Email"]);
                 int tGruppaId = Convert.ToInt32(reader["GruppaId"]);
-                Student st = new Student(tId,tSurname,tFirstName,tPanronymic,tMobileNomber,tEmail,tGruppaId);
-                
+                st.id = tId; st.surname = tSurname; st.firstName = tFirstName; st.patronymic = tPanronymic;
+                st.mobileNomber = tMobileNomber; st.email = tEmail; st.gruppaId = tGruppaId;
+            }
             }
 
             catch (Exception e)
@@ -42,7 +45,7 @@ namespace Decanat.DAO
             {
                 Disconnect();
             }
-            return s;
+            return st;
 
         }
 

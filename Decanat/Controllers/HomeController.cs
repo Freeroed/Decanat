@@ -162,11 +162,40 @@ namespace Decanat.Controllers
             if (kDAO.add(kafedra)) return View("Index"); else return View("AddKafedra"); ;
         }
 
+        //Добавление ВКР
+        public ActionResult addVKR()
+        {
+            return View();
+        }
+        [Authorize(Roles = "decan,director")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult addVKR([Bind(Exclude = "ID")] VKR vkr, int studentId)
+        {
+            VKR newVKR = vkr;
+            newVKR.studentId = studentId;
+            int teacherid = tDAO.getTeacherId(User.Identity.Name);
+            newVKR.teacherId = teacherid;
+            if (vDAO.add(newVKR))
+            {
+                return View("Index");
+            }
+            else
+            {
+                return View("addVKR");
+            }
+
+        }
+
         //**********************************************************************
         //Предоставление информации
         //**********************************************************************
 
-
+        //Подробная информация о студенте
+        public ActionResult getStudentInfo(int id)
+        {
+            Student student = sDAO.getStudentInfo(id);
+            return View(student);
+        }
         //Подробная информация о представленном ответе
         [Authorize(Roles = "teacher,student")]
         public ActionResult ShowAnswerInfo(int id)
