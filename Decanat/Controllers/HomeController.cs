@@ -303,8 +303,8 @@ namespace Decanat.Controllers
         //Отправить на исправление
         public ActionResult sendToEdit (int id)
         {
-            if (aDAO.setStatus(id, 3)) return RedirectToAction("Index");
-            else return RedirectToAction("showAnswerInfo", new { id = id });
+            if (aDAO.setStatus(id, 3)) return RedirectToAction("showAnswerInfo", new { id = id });
+            else return RedirectToAction("Index"); //На страницу с ошибкой
         }
         public ActionResult About()
         {

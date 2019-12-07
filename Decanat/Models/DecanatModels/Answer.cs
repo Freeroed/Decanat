@@ -20,7 +20,7 @@ namespace Decanat.Models.DecanatModels
             get
             {
                 StepDAO sDAO = new StepDAO();
-                return sDAO.getStepName(this.id);
+                return sDAO.getStepName(stepid);
             }
         }
         public string vkrName

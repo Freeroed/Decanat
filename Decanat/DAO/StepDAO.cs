@@ -16,7 +16,7 @@ namespace Decanat.DAO
             try
             {
                 SqlCommand cmd = new SqlCommand("SELECT Name FROM Step WHERE Id=@Id",Connection);
-                cmd.Parameters.Add(new SqlParameter("@id", id));
+                cmd.Parameters.Add(new SqlParameter("@Id", id));
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {

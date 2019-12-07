@@ -112,6 +112,7 @@ namespace Decanat.DAO
                     plan.gpoupId = Convert.ToInt32(reader["GruppaId"]);
                     plan.status = Convert.ToInt32(reader["Status"]);
                     loger.Info("Успешный запрос информации о плане-графике");
+                    loger.Info(plan.id + " " + plan.status + "  " + plan.gpoupId);
                 }
             }
             catch (Exception e)

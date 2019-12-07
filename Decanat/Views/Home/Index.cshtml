@@ -5,7 +5,6 @@
 
 @if (User.IsInRole("admin"))
 {
-    <h2>Я админ</h2>
     <p>
         @Html.ActionLink("Посмотреть всё", "getAllWorks")
     </p>
@@ -14,13 +13,12 @@ else
 {
     if (User.IsInRole("student"))
     {
-        <h2>Я студент</h2>
         <h2>
-            @Html.DisplayFor(modelItem => Model.vkr.theme)
+           Темя моей выпускной работы:  @Html.DisplayFor(modelItem => Model.vkr.theme)
         </h2>
-        <h2>
-            @Html.DisplayFor(modelItem => Model.vkr.id)
-        </h2>
+        <p>
+            Список дел
+        </p>
         <table class="table">
             <tr>
                 <th>
@@ -53,13 +51,12 @@ else
     {
         if (User.IsInRole("teacher"))
         {
-            <h2>Я преподаватель</h2>
-            <h2>
-                @Html.DisplayFor(modelItem => Model.id)
-            </h2>
+            if (Model.answers.Count > 0)
+            {
             <p>
                 Для вас были представлены ответы на следующие работы
             </p>
+            
             <table class="table">
                 <tr>
                     <th>
@@ -85,7 +82,9 @@ else
                     </tr>
                 }
 
-            </table>
+            </table> }
+            else { <p>
+                  Для вас не представлено ответов на проверку</p>}
             <p>
                 @Html.ActionLink("Все мои группы", "getKafedraInfo", new { id = Model.idKaf })
             </p>
@@ -95,7 +94,6 @@ else
         {
             if (User.IsInRole("decan"))
             {
-                <h2>Я Декан</h2>
                 <p>
                     @Html.ActionLink("Добавление преподавателя", "AddTeacher")
                 </p>
@@ -134,7 +132,6 @@ else
             {
                 if (User.IsInRole("director"))
                 {
-                    <h2>Я Директор, мне необходимо сделать частичное представление как у студента и препода</h2>
 
                     <p>
                         @Html.ActionLink("Добавление преподавателя", "AddTeacher")
@@ -170,7 +167,7 @@ else
                 }
                 else
                 {
-                    <h2> Для доступа к возможностям сервиса вам необходимо пройти авторизацию</h2>}
+                    <h2> Для доступа к возможностям сервиса вам необходимо пройти авторизацию или дождаться предоставления прав</h2>}
 
             }
         }

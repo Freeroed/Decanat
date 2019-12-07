@@ -55,13 +55,13 @@ namespace Decanat.DAO
             loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("UPDATE Answer SET Mark = @mark, AnswerDate = @aDate, Status = 2 WHERE Id=@id",Connection);
+                SqlCommand cmd = new SqlCommand("UPDATE Answer SET Mark = @mark, markDate = @mDate, Status = 2 WHERE Id=@id",Connection);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 cmd.Parameters.Add(new SqlParameter("@mark", mark));
-                cmd.Parameters.Add(new SqlParameter("@aDate", DateTime.Now));
+                cmd.Parameters.Add(new SqlParameter("@mDate", DateTime.Now));
                 cmd.ExecuteNonQuery();
                 loger.Info("Успешный выставление оценки");
-                setStatus(id, 2); 
+                //setStatus(id, 2); 
             }
             catch(Exception e)
             {
@@ -91,11 +91,11 @@ namespace Decanat.DAO
                 if (reader.Read())
                 {
                     ans.id = Convert.ToInt32(reader["id"]);
+                    ans.status = Convert.ToInt32(reader["Status"]);
+                    if (ans.status == 1) { ans.answerDate = Convert.ToDateTime(reader["AnswerDate"]); }
                     ans.link = Convert.ToString(reader["Link"]);
-                    ans.answerDate = Convert.ToDateTime(reader["AnswerDate"]);
                     ans.vkrId = Convert.ToInt32(reader["VKRId"]);
                     ans.stepid = Convert.ToInt32(reader["StepId"]);
-                    ans.status = Convert.ToInt32(reader["Status"]);
                     if (ans.status == 2)
                     {
                         ans.mark = Convert.ToInt32(reader["Mark"]);
@@ -133,7 +133,7 @@ namespace Decanat.DAO
             {
                 SqlCommand cmd = new SqlCommand("UPDATE Answer SET Status=@status WHERE Id = @id", Connection);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
-                cmd.Parameters.Add(new SqlParameter("@sattus", status));
+                cmd.Parameters.Add(new SqlParameter("@status", status));
                 cmd.ExecuteNonQuery();
                 loger.Info("Успешный вывод информации об ответе");
             }
@@ -185,9 +185,10 @@ namespace Decanat.DAO
             loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             try
             {
-                SqlCommand cmd = new SqlCommand("UPDATE Answer SET Link = @Link WHERE Id=@Id", Connection);
+                SqlCommand cmd = new SqlCommand("UPDATE Answer SET Link = @Link, AnswerDate = @aDate WHERE Id=@Id", Connection);
                 cmd.Parameters.Add(new SqlParameter("@Id",id));
                 cmd.Parameters.Add(new SqlParameter("@Link", link));
+                cmd.Parameters.Add(new SqlParameter("@aDate", DateTime.Now));
                 cmd.ExecuteNonQuery();
                 setStatus(id, 1);
                 loger.Info("Успешное отправка ответа");

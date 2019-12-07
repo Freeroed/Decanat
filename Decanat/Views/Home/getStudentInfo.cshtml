@@ -3,24 +3,35 @@
     ViewBag.Title = "getStudentInfo";
 }
 
-<h2>Необходимо доработать дизайн</h2>
-
+<h2>Подробно о студенте</h2>
+@if (User.IsInRole("teacher") || User.IsInRole("decan") || User.IsInRole("director"))
+{
 <p>
     ФИО @Html.DisplayFor(ModelItem => Model.getFIO)
 </p>
 <p>
+   Обучается в группе:  @Html.DisplayFor(ModelItem => Model.gruppaName)
+</p>
+<p>
+    e-mail:  @Html.DisplayFor(ModelItem => Model.email)
+</p>
+<p>
+    Номер телефона:  @Html.DisplayFor(ModelItem => Model.mobileNomber)
+</p>
+<p>
         @Html.DisplayFor(ModelItem => Model.getIsHasVKR)
 </p>
+
 <p>
     @if (Model.isHasVKR)
     {
-        @Html.ActionLink("Посмотреть","")
+        @Html.ActionLink("Посмотреть", "")
     }
     else
     {
         if (Model.isPlanAproved)
         {
-            @Html.ActionLink("Добавить ВКР","addVKR", new { studentId = Model.id, gruppaId = Model.gruppaId})
+            @Html.ActionLink("Добавить ВКР", "addVKR", new { studentId = Model.id, gruppaId = Model.gruppaId })
         }
         else
         {
@@ -30,4 +41,4 @@
         }
     }
 </p>
-
+}
