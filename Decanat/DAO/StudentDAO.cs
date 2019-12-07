@@ -189,12 +189,13 @@ namespace Decanat.DAO
                 SqlDataReader reader = cmdA.ExecuteReader();
                 if (reader.Read())
                 {
-                    id = Convert.ToString("Id");
+                    id = Convert.ToString(reader["Id"]);
                 }
                 reader.Close();
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (@id, 2)");
-                cmd.Parameters.Add(new SqlParameter("id", id));
+            SqlCommand cmd = new SqlCommand("INSERT INTO AspNetUserRoles (userId, roleId) " +
+                    "VALUES (@userId, 2)", Connection);
+            cmd.Parameters.Add(new SqlParameter("@userId", id));
                 cmd.ExecuteNonQuery();
             }
             catch(Exception e)
