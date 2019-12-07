@@ -14,9 +14,12 @@
 <p>
     Статус: @Html.DisplayFor(ModelItem => Model.statusName)
 </p>
+@if (Model.status == 1)
+{
 <p>
     Ответ представлен: @Html.DisplayFor(ModelItem => Model.answerDate)
 </p>
+}
 @if (Model.status == 2)
 {
     <p>
@@ -28,15 +31,17 @@
 }
 else
 {
-    if (User.IsInRole("teacher"))
+    if (User.IsInRole("teacher") && Model.status==1)
     {
-        <p>
-            @Html.ActionLink("Оценить", "SetMark")
-        </p>
+<p>
+    @Html.ActionLink("Поставить оценку", "setMark", new { id = Model.id })
+</p>
         <p>
             @Html.ActionLink("На исправление", "SendToEdit")
         </p>
     }
+
+    
 
 }
 

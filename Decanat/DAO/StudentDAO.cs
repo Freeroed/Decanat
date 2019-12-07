@@ -22,17 +22,18 @@ namespace Decanat.DAO
                 SqlCommand cmd = new SqlCommand("SELECT * FROM Student WHERE Id =@id", Connection);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 SqlDataReader reader = cmd.ExecuteReader();
-            if (reader.Read())
-            {
-                int tId = Convert.ToInt32(reader["Id"]);
-                string tSurname = Convert.ToString(reader["Surname"]);
-                string tFirstName = Convert.ToString(reader["FirstName"]);
-                string tPanronymic = Convert.ToString(reader["Patronymic"]);
-                string tMobileNomber = Convert.ToString(reader["MobileNumber"]);
-                string tEmail = Convert.ToString(reader["Email"]);
-                int tGruppaId = Convert.ToInt32(reader["GruppaId"]);
+                if (reader.Read())
+                {
+                    int tId = Convert.ToInt32(reader["Id"]);
+                    string tSurname = Convert.ToString(reader["Surname"]);
+                    string tFirstName = Convert.ToString(reader["FirstName"]);
+                    string tPanronymic = Convert.ToString(reader["Patronymic"]);
+                    string tMobileNomber = Convert.ToString(reader["MobileNumber"]);
+                    string tEmail = Convert.ToString(reader["Email"]);
+                    int tGruppaId = Convert.ToInt32(reader["GruppaId"]);
+                    bool isHasVKR = Convert.ToBoolean(reader["IsHasVKR"]);
                 st.id = tId; st.surname = tSurname; st.firstName = tFirstName; st.patronymic = tPanronymic;
-                st.mobileNomber = tMobileNomber; st.email = tEmail; st.gruppaId = tGruppaId;
+                st.mobileNomber = tMobileNomber; st.email = tEmail; st.gruppaId = tGruppaId; st.isHasVKR = isHasVKR;
             }
             }
 
@@ -47,6 +48,33 @@ namespace Decanat.DAO
             }
             return st;
 
+        }
+
+        //Изменение статуса наличия ВКР у студента
+        public bool setStudentVKRstat(int studentId, bool status)
+        {
+            bool resunt = true;
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE Student SET IsHasVKR = @status WHERE Id = @id", Connection);
+                cmd.Parameters.Add(new SqlParameter("@status", status));
+                cmd.Parameters.Add(new SqlParameter("@id", studentId));
+                cmd.ExecuteNonQuery();
+                loger.Info("Успешное иззменение статуса о наличии ВКР");
+            }
+            catch (Exception e)
+            {
+                loger.Error("Произошла ошибка при изменнеии статуса нилия ВКР у студента");
+                loger.Trace(e.StackTrace);
+                resunt = false;
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return resunt;
         }
 
         //Получить ID студента по email

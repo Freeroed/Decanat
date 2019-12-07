@@ -61,6 +61,7 @@ namespace Decanat.DAO
                 cmd.Parameters.Add(new SqlParameter("@aDate", DateTime.Now));
                 cmd.ExecuteNonQuery();
                 loger.Info("Успешный выставление оценки");
+                setStatus(id, 2); 
             }
             catch(Exception e)
             {
@@ -188,6 +189,7 @@ namespace Decanat.DAO
                 cmd.Parameters.Add(new SqlParameter("@Id",id));
                 cmd.Parameters.Add(new SqlParameter("@Link", link));
                 cmd.ExecuteNonQuery();
+                setStatus(id, 1);
                 loger.Info("Успешное отправка ответа");
 
             }
@@ -204,6 +206,39 @@ namespace Decanat.DAO
             return result;
         }
         
+        //Список всех ответо для ВКР
+        public List<Answer> getAnswersByVKR(int VKRId)
+        {
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            List<Answer> answers = new List<Answer>();
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Answer WHERE VKRId = @VKRId", Connection);
+                cmd.Parameters.Add(new SqlParameter("@VKRId", VKRId));
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["Id"]);
+                    int stepId = Convert.ToInt32(reader["StepId"]);
+                    string link = Convert.ToString(reader["Link"]);
+                    int status = Convert.ToInt32(reader["Status"]);
+                    int vkrid = Convert.ToInt32(reader["VKRId"]);
+                    answers.Add(new Answer(id, vkrid, stepId, link, status));
+                }
+                loger.Info("Успешный запрос информации об ответах");
+            }
+            catch(Exception e)
+            {
+                loger.Error("Произошла ошибка при Запросе информации об ответах");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return answers;
+        }
     }
 
     

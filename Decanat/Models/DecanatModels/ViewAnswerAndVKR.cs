@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Decanat.DAO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,14 @@ namespace Decanat.Models.DecanatModels
         public int id;
         public List<Plan> plans;
         public List<Kafedra> kafedras;
+        public int idKaf
+        {
+            get
+            {
+                TeacherDAO tDAO = new TeacherDAO();
+                return tDAO.getKafedraId(id);
+            }
+        }
 
         public ViewAnswerAndVKR(List<Answer> answers, VKR vkr)
         {

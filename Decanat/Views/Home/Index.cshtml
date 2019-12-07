@@ -18,6 +18,36 @@ else
         <h2>
             @Html.DisplayFor(modelItem => Model.vkr.theme)
         </h2>
+        <h2>
+            @Html.DisplayFor(modelItem => Model.vkr.id)
+        </h2>
+        <table class="table">
+            <tr>
+                <th>
+                    Название этапа
+                </th>
+                <th>
+                    Статус
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            @foreach (var item in Model.answers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.stepName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.statusName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Подробнее", "ShowAnswerInfo", new { id = item.id })
+                    </td>
+                </tr>
+            }
+        </table>
     }
     else
     {
@@ -56,6 +86,9 @@ else
                 }
 
             </table>
+            <p>
+                @Html.ActionLink("Все мои группы", "getKafedraInfo", new { id = Model.idKaf })
+            </p>
 
         }
         else
@@ -121,14 +154,14 @@ else
 
                             </th>
                         </tr>
-                        @foreach(var item in Model.plans)
+                        @foreach (var item in Model.plans)
                         {
                             <tr>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.getGroupName)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Подробнее", "ShowPlanInfo", new { id = item.id})
+                                    @Html.ActionLink("Подробнее", "ShowPlanInfo", new { id = item.id })
                                 </td>
                             </tr>
                         }

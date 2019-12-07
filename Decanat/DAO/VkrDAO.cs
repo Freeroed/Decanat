@@ -116,6 +116,7 @@ namespace Decanat.DAO
             return vkr;
         }
 
+        //Запрос только что добавленный ВКР
         public VKR getNewVKR(int studentId, int teacherId, int PlanId)
         {
             VKR newVKR = new VKR();
@@ -172,6 +173,9 @@ namespace Decanat.DAO
                 {
                     aDAO.add(new Answer(tempId,item.id));
                 }
+                StudentDAO stDAO = new StudentDAO();
+                result = stDAO.setStudentVKRstat(vkr.studentId, true);
+
 
             }
             catch(Exception e)

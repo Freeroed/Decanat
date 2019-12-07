@@ -37,6 +37,32 @@ namespace Decanat.DAO
             }
             return 0;
         }
+        public int getKafedraId(int id)
+        {
+            Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT KafedraId FROM Prepod where Id = @id", Connection);
+                cmd.Parameters.Add(new SqlParameter("@id", id));
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    return Convert.ToInt32(reader["KafedraId"]);
+
+                }
+            }
+            catch (Exception e)
+            {
+                loger.Error("Произошла ошибка поиске преподавателя");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return 0;
+        }
 
         //Добавление учителя
         public bool add(Teacher teacher)
@@ -68,6 +94,7 @@ namespace Decanat.DAO
             return result;
         }
         
+        //Запрос всех препадователей кафедрры
         public List<Teacher> getAllTeachersByKafedra(int id)
         {
             List<Teacher> teachers = new List<Teacher>();

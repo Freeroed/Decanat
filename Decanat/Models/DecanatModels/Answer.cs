@@ -102,5 +102,28 @@ namespace Decanat.Models.DecanatModels
         {
 
         }
+
+        public Answer(int id, int vkrId, int stepid, string link, int mark, int status, DateTime answerDate, DateTime markDate)
+        {
+            this.id = id;
+            this.vkrId = vkrId;
+            this.stepid = stepid;
+            this.link = link;
+            this.mark = mark;
+            this.status = status;
+            this.answerDate = answerDate;
+            this.markDate = markDate;
+        }
+        public Answer(int id, int vkrId, int stepid, string link, int status)
+        {
+            this.id = id;
+            this.vkrId = vkrId;
+            this.stepid = stepid;
+            this.link = link;
+            this.mark = mark;
+            this.status = status;
+            this.answerDate = answerDate;
+            this.markDate = markDate;
+        }
     }
 }

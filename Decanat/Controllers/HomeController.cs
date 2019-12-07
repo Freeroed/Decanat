@@ -27,7 +27,10 @@ namespace Decanat.Controllers
             {
                 int id = sDAO.getStudentId(User.Identity.Name);
                 Console.WriteLine(id);
-                ViewAnswerAndVKR vav = new ViewAnswerAndVKR(vDAO.getVKRbyStudent(id), id);
+                VKR vkr = vDAO.getVKRbyStudent(id);
+                ViewAnswerAndVKR vav = new ViewAnswerAndVKR(vkr, id);
+                List<Answer> answers = aDAO.getAnswersByVKR(vkr.id);
+                vav.answers = answers;
                 return View(vav);
 
             }
@@ -56,9 +59,9 @@ namespace Decanat.Controllers
 
 
         }
-        //******************************************************************
+        //******************************************************************************************************************************
         //Добавления
-        //******************************************************************
+        //******************************************************************************************************************************
 
 
         //Добавление студента
@@ -167,7 +170,7 @@ namespace Decanat.Controllers
         {
             return View();
         }
-        [Authorize(Roles = "decan,director, teacher")]
+        [Authorize(Roles = "teacher")]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult addVKR([Bind(Exclude = "ID")] VKR vkr, int studentId, int gruppaId)
         {
@@ -180,7 +183,7 @@ namespace Decanat.Controllers
             newVKR.planId = planId;
             if (vDAO.add(newVKR))
             {
-                return View("Index");
+                return RedirectToAction("getStudentInfo", new { id = studentId });
             }
             else
             {
@@ -189,9 +192,9 @@ namespace Decanat.Controllers
 
         }
 
-        //**********************************************************************
+        //**********************************************************************************************************
         //Предоставление информации
-        //**********************************************************************
+        //**********************************************************************************************************
 
         //Подробная информация о студенте
         public ActionResult getStudentInfo(int id)
@@ -257,13 +260,51 @@ namespace Decanat.Controllers
             TeachersInKafedraView tIKV = new TeachersInKafedraView(kafedra, teachers);
             return View(tIKV);
         }
-        //************************************************************************************************
+        //********************************************************************************************************************
         //Изменение
-        //************************************************************************************************
+        //********************************************************************************************************************
         public ActionResult SetPlanStatus(int id, int status)
         {
             if (pDAO.setStatus(id, status)) return RedirectToAction("ShowPlanInfo", new { id = id });
             else return View("Index");  //Добавить страницу с ошибкой******************************************
+        }
+
+        //Предостаить ответ
+        public ActionResult sendAnswer(int id)
+        {
+            Answer ans = aDAO.getInfo(id);
+            return View(ans);
+        }
+        [Authorize(Roles = "student")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult sendAnswer(Answer ans, int id)
+        {
+            if (aDAO.sendAnswer(ans.id, ans.link)) return RedirectToAction("ShowAnswerInfo", new { id = ans.id });
+            else return View();
+        }
+
+
+        //ПОставить оценку
+        // GET: /Home/Edit 
+        public ActionResult setMark(int id)
+        {
+            Answer ans = aDAO.getInfo(id);
+            return View(ans);
+        }
+
+        [Authorize(Roles = "teacher")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult setMark(Answer ans)
+        {
+            if (aDAO.setMark(ans.id, ans.mark)) { return RedirectToAction("Index"); }
+            else return View();
+        }
+
+        //Отправить на исправление
+        public ActionResult sendToEdit (int id)
+        {
+            if (aDAO.setStatus(id, 3)) return RedirectToAction("Index");
+            else return RedirectToAction("showAnswerInfo", new { id = id });
         }
         public ActionResult About()
         {
@@ -272,12 +313,15 @@ namespace Decanat.Controllers
             return View();
         }
 
+        
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
         }
+        
         
 
 

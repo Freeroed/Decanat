@@ -287,7 +287,8 @@
     <Content Include="Views\Home\AddKafedra.cshtml" />
     <Content Include="Views\Home\addVKR.cshtml" />
     <Content Include="Views\Home\getStudentInfo.cshtml" />
-    <None Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Home\sendAnswer.cshtml" />
+    <Content Include="Views\Home\setMark.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
