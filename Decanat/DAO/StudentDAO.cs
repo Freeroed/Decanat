@@ -6,6 +6,7 @@ using System.Web;
 using System.Linq;
 using Decanat.Models.DecanatModels;
 using System.Diagnostics;
+using System.Configuration;
 
 namespace Decanat.DAO
 {
@@ -123,6 +124,7 @@ namespace Decanat.DAO
                 cmd.Parameters.Add(new SqlParameter("@Email", student.email));
                 cmd.Parameters.Add(new SqlParameter("@GruppaId", student.gruppaId));
                 cmd.ExecuteNonQuery();
+                addStudentRole(student);
             }
             catch (Exception e)
             {
@@ -172,6 +174,41 @@ namespace Decanat.DAO
             return students;
         }
 
+        public bool addStudentRole(Student st)
+        {
+            bool result = true;
+            string ConnectionScting = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            try
+            {
+                Connection = new SqlConnection(ConnectionScting);
+                Connection.Open();
+
+                string id = "";
+                SqlCommand cmdA = new SqlCommand("SELECT Id FROM AspNetUsers WHERE Email = @email", Connection);
+                cmdA.Parameters.Add(new SqlParameter("@email", st.email));
+                SqlDataReader reader = cmdA.ExecuteReader();
+                if (reader.Read())
+                {
+                    id = Convert.ToString("Id");
+                }
+                reader.Close();
+
+                SqlCommand cmd = new SqlCommand("INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (@id, 2)");
+                cmd.Parameters.Add(new SqlParameter("id", id));
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception e)
+            {
+                result = false;
+                loger.Error("Произошла ошибка при присвоении роли");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return result;
+        }
     }
        
     

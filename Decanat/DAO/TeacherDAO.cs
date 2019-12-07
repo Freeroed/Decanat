@@ -1,6 +1,7 @@
 ﻿using Decanat.Models.DecanatModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -80,6 +81,7 @@ namespace Decanat.DAO
                 cmd.Parameters.Add(new SqlParameter("@KafedraId", teacher.kafedraId));
                 cmd.Parameters.Add(new SqlParameter("@Email", teacher.email));
                 cmd.ExecuteNonQuery();
+                addTeacherRole(teacher);
             }
             catch(Exception e)
             {
@@ -128,6 +130,41 @@ namespace Decanat.DAO
                 Disconnect();
             }
             return teachers;
+        }
+        public bool addTeacherRole(Teacher tch)
+        {
+            bool result = true;
+            string ConnectionScting = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            try
+            {
+                Connection = new SqlConnection(ConnectionScting);
+                Connection.Open();
+
+                string id = "";
+                SqlCommand cmdA = new SqlCommand("SELECT Id FROM AspNetUsers WHERE Email = @email", Connection);
+                cmdA.Parameters.Add(new SqlParameter("@email", tch.email));
+                SqlDataReader reader = cmdA.ExecuteReader();
+                if (reader.Read())
+                {
+                    id = Convert.ToString("Id");
+                }
+                reader.Close();
+
+                SqlCommand cmd = new SqlCommand("INSERT INTO AspNetUserRoles (UserId, RoleId) VALUES (@id, 2)");
+                cmd.Parameters.Add(new SqlParameter("id", id));
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                result = false;
+                loger.Error("Произошла ошибка при присвоении роли");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return result;
         }
     }
 
