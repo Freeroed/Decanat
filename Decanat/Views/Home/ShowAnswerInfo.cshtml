@@ -5,55 +5,59 @@
 }
 @if (User.IsInRole("teacher") || User.IsInRole("student") || User.IsInRole("decan") || User.IsInRole("director"))
 {
-<h2>Информация о работе</h2>
-<p>
-    Название работы: @Html.DisplayFor(ModelItem => Model.vkrName)
-</p>
-<p>
-    Этап: @Html.DisplayFor(ModelItem => Model.stepName)
-</p>
-<p>
-    Статус: @Html.DisplayFor(ModelItem => Model.statusName)
-</p>
-if ((Model.status == 0 || Model.status==3)&& User.IsInRole("student"))
-{
+    <h2>Информация о работе</h2>
     <p>
-        @Html.ActionLink("Добавить ответ","sendAnswer", new { id = Model.id})
+        Название работы: @Html.DisplayFor(ModelItem => Model.vkrName)
     </p>
-}
-if (Model.status == 1 && (User.IsInRole("teacher") || User.IsInRole("decan") || User.IsInRole("director")))
-{
+    <p>
+        Этап: @Html.DisplayFor(ModelItem => Model.stepName)
+    </p>
+    <p>
+        Статус: @Html.DisplayFor(ModelItem => Model.statusName)
+    </p>
+    if ((Model.status == 0 || Model.status == 3 || Model.status == 5) && User.IsInRole("student"))
+    {
+        <p>
+            @Html.ActionLink("Добавить ответ", "sendAnswer", new { id = Model.id })
+        </p>
+    }
+    if (Model.status == 1 && (User.IsInRole("teacher") || User.IsInRole("decan") || User.IsInRole("director")))
+    {
         <p>
             Сслыка на ответ:  @Html.DisplayFor(model => Model.link)
         </p>
-<p>
-    Ответ представлен: @Html.DisplayFor(ModelItem => Model.answerDate)
-</p>
-}
-if (Model.status == 2)
-{
-    <p>
-        Оценка: @Html.DisplayFor(ModelItem => Model.mark)
-    </p>
-    <p>
-        Дата оценки: @Html.DisplayFor(ModelItem => Model.markDate)
-    </p>
-}
-else
-{
-    if (User.IsInRole("teacher") && Model.status == 1)
-    {
-<p>
-    @Html.ActionLink("Поставить оценку", "setMark", new { id = Model.id })
-</p>
         <p>
-            @Html.ActionLink("На исправление", "SendToEdit", new { id = Model.id })
+            Ответ представлен: @Html.DisplayFor(ModelItem => Model.answerDate)
         </p>
     }
+    if (Model.status == 2)
+    {
+        <p>
+            Оценка: @Html.DisplayFor(ModelItem => Model.mark)
+        </p>
+        <p>
+            Дата оценки: @Html.DisplayFor(ModelItem => Model.markDate)
+        </p>
+    }
+    else
+    {
+        if (User.IsInRole("teacher") && Model.status == 1)
+        {
+            <p>
+                @Html.ActionLink("Поставить оценку", "setMark", new { id = Model.id })
+            </p>
+            <p>
+                @Html.ActionLink("На исправление", "SendToEdit", new { id = Model.id })
+            </p>
+        }
+        if (Model.status == 4)
+        {
+            @Html.ActionLink("Добавить время", "giveMachTime", new { id = Model.id })
+        }
 
-<p>
-    @Html.ActionLink("Венуться к работе", "showVKRInfo", new { id = Model.vkrId });
-</p>
+        <p>
+            @Html.ActionLink("Венуться к работе", "showVKRInfo", new { id = Model.vkrId });
+        </p>
 
-}
+    }
 }

@@ -63,6 +63,10 @@ namespace Decanat.Models.DecanatModels
                         return "Отправлен на исправление";
                     case 4:
                         return "Просрочен";
+                    case 5:
+                        return "Добвленно время";
+                    case 6:
+                        return "Представлен с опозданием";
                     default:
                         return "error 404";
                 }
@@ -124,6 +128,14 @@ namespace Decanat.Models.DecanatModels
             this.status = status;
             this.answerDate = answerDate;
             this.markDate = markDate;
+        }
+
+        public Answer(int id, int stepid, int status)
+        {
+            this.id = id;
+            this.status = status;
+            this.stepid = stepid;
+
         }
     }
 }

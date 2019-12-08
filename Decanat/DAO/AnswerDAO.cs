@@ -190,7 +190,14 @@ namespace Decanat.DAO
                 cmd.Parameters.Add(new SqlParameter("@Link", link));
                 cmd.Parameters.Add(new SqlParameter("@aDate", DateTime.Now));
                 cmd.ExecuteNonQuery();
-                setStatus(id, 1);
+                if (getInfo(id).status == 0)
+                {
+                    setStatus(id, 1);
+                }
+                else if (getInfo(id).status==5)
+                {
+                    setStatus(id, 6);
+                }
                 loger.Info("Успешное отправка ответа");
 
             }
@@ -273,6 +280,62 @@ namespace Decanat.DAO
                 Disconnect();
             }
             return answers;
+        }
+
+       public List<Answer> getAllAnswers()
+        {
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            List<Answer> answers = new List<Answer>();
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Answer ", Connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["Id"]);
+                    int stepId = Convert.ToInt32(reader["StepId"]);
+                    int status = Convert.ToInt32(reader["Status"]);
+                    answers.Add(new Answer(id, stepId, status));
+                }
+                loger.Info("Успешный запрос информации об ответах");
+            }
+            catch (Exception e)
+            {
+                loger.Error("Произошла ошибка при Запросе информации о всех ответах");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return answers;
+        }
+
+        //Проверка просроченных ответов
+        public bool checkAllAnswers()
+        {
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            bool result = true;
+            StepDAO sDAO = new StepDAO();
+            try
+            {
+                List<Answer> answers = getAllAnswers();
+                foreach (var item in answers)
+                {
+                    if (item.status == 0 && sDAO.getStepsInfo(item.stepid).date > DateTime.Now)
+                    {
+                        setStatus(item.id, 4);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                result = false;
+                loger.Error("Произошла ошибка при поиске просроченных ответов");
+                loger.Trace(e.StackTrace);
+            }
+            return result;
         }
     }
 

@@ -55,6 +55,7 @@ namespace Decanat.Controllers
                 if (User.IsInRole("decan")) {
                     List<Kafedra> kafedras = kDAO.getAllKafedras();
                     ViewAnswerAndVKR vav = new ViewAnswerAndVKR(kafedras);
+                    aDAO.checkAllAnswers();
                     return View(vav); 
                 } else return View();
                 }
@@ -330,6 +331,12 @@ namespace Decanat.Controllers
         public ActionResult sendToEdit (int id)
         {
             if (aDAO.setStatus(id, 3)) return RedirectToAction("showAnswerInfo", new { id = id });
+            else return RedirectToAction("Index"); //На страницу с ошибкой
+        }
+        //Добавить время для предоставление ответа
+        public ActionResult giveMachTime(int id)
+        {
+            if (aDAO.setStatus(id, 5)) return RedirectToAction("showAnswerInfo", new { id = id });
             else return RedirectToAction("Index"); //На страницу с ошибкой
         }
         public ActionResult About()
