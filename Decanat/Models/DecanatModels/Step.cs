@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Decanat.DAO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,7 +17,14 @@ namespace Decanat.Models.DecanatModels
         public string comment { get; set; }
         public int planId { get; set; }
         
-
+        public bool isPlanAproved
+        {
+            get
+            {
+                PlanDAO pDAO = new PlanDAO();
+                return pDAO.isPlanAproved(planId);
+            }
+        }
         //*******************************************************************
         //Конструкторы
         //*******************************************************************

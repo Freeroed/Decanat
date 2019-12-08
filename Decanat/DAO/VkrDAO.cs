@@ -55,6 +55,7 @@ namespace Decanat.DAO
         //Поиск ВКР по ID
         public VKR getVKRbyId(int id)
         {
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
             VKR vkr = new VKR();
             Connect();
             try
@@ -68,13 +69,15 @@ namespace Decanat.DAO
                     vkr.theme = Convert.ToString(reader["Theme"]);
                     vkr.studentId = Convert.ToInt32(reader["StudentId"]);
                     vkr.teacherId = Convert.ToInt32(reader["PrepodId"]);
+                    vkr.status = Convert.ToInt32(reader["Status"]);
 
                 }
 
             }
             catch(Exception e)
             {
-                //
+                loger.Error("Произошла ошибка поиске ВКР");
+                loger.Trace(e.StackTrace);
             }
             finally
             {
@@ -101,6 +104,7 @@ namespace Decanat.DAO
                     vkr.theme = Convert.ToString(reader["Theme"]);
                     vkr.studentId = Convert.ToInt32(reader["StudentId"]);
                     vkr.teacherId = Convert.ToInt32(reader["PrepodId"]);
+                    
                 }
                 return vkr;
             }

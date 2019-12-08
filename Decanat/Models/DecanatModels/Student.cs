@@ -31,7 +31,14 @@ namespace Decanat.Models.DecanatModels
                 else return "Данные о ВКР пока не добавлены";
             }
                 }
-
+        public int getVKR
+        {
+            get
+            {
+                VkrDAO vDAO = new VkrDAO();
+                return vDAO.getVKRbyStudent(id).id;
+            }
+        }
         public string getFIO
         {
             get

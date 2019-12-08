@@ -240,6 +240,40 @@ namespace Decanat.DAO
             }
             return answers;
         }
+
+        //Список всех ответо для ВКР
+        public List<Answer> getAnswersByStep(int PlanId)
+        {
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            List<Answer> answers = new List<Answer>();
+            Connect();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Answer WHERE StepId = @StepId", Connection);
+                cmd.Parameters.Add(new SqlParameter("@StepId", PlanId));
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["Id"]);
+                    int stepId = Convert.ToInt32(reader["StepId"]);
+                    string link = Convert.ToString(reader["Link"]);
+                    int status = Convert.ToInt32(reader["Status"]);
+                    int vkrid = Convert.ToInt32(reader["VKRId"]);
+                    answers.Add(new Answer(id, vkrid, stepId, link, status));
+                }
+                loger.Info("Успешный запрос информации об ответах");
+            }
+            catch (Exception e)
+            {
+                loger.Error("Произошла ошибка при Запросе информации об ответах");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return answers;
+        }
     }
 
     

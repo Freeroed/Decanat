@@ -18,6 +18,7 @@ namespace Decanat.Controllers
         PlanDAO pDAO = new PlanDAO();
         StepDAO stepDAO = new StepDAO();
         KafedraDAO kDAO = new KafedraDAO();
+        VkrDAO vkrDAO = new VkrDAO();
 
         //Стартовая страница
         public ActionResult Index()
@@ -45,6 +46,8 @@ namespace Decanat.Controllers
                 {
                 List<Plan> plans = pDAO.showPlansByStatus(7);
                 ViewAnswerAndVKR vav = new ViewAnswerAndVKR(plans);
+                List<Kafedra> kafedras = kDAO.getAllKafedras();
+                vav.kafedras = kafedras;
                 return View(vav);
                 }
                 else
@@ -205,12 +208,21 @@ namespace Decanat.Controllers
             return View(student);
         }
         //Подробная информация о представленном ответе
-        [Authorize(Roles = "teacher,student")]
+        [Authorize(Roles = "teacher,student, decan, director")]
         public ActionResult ShowAnswerInfo(int id)
         {
             Answer ans = aDAO.getInfo(id);
             return View(ans);
 
+        }
+
+        //Предоставление информации о ВКР
+        public ActionResult showVKRInfo(int id)
+        {
+            VKR vkr = vkrDAO.getVKRbyId(id);
+            List<Answer> answers = aDAO.getAnswersByVKR(id);
+            ViewAnswerAndVKR vAVKR = new ViewAnswerAndVKR(answers, vkr);
+            return View(vAVKR);
         }
         //GET: VKR
         //Просмотреть все документы
@@ -235,6 +247,20 @@ namespace Decanat.Controllers
             List<Gruppa> groups = gDAO.getAllGroups();
             return View(groups);
         }
+        //Информация об этапе
+        public ActionResult getStepInfo(int id)
+        {
+            Step step = stepDAO.getStepsInfo(id);
+            StepAndAnswersView sAAV = new StepAndAnswersView(step);
+            if (step.isPlanAproved)
+            {
+                List<Answer> answers = aDAO.getAnswersByStep(step.id);
+                sAAV.answers = answers;
+            }
+
+            return View(sAAV);
+        }
+
 
         //Вывод информации о группе
         public ActionResult GetGroupInfo(int id)
@@ -313,7 +339,17 @@ namespace Decanat.Controllers
             return View();
         }
 
-        
+        public ActionResult editStep(int id)
+        {
+            Step step = stepDAO.getStepsInfo(id);
+            return View(step);
+        }
+        [Authorize(Roles = "decan, director")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult editStep(Step step)
+        {
+            if (stepDAO.edit(step)) return RedirectToAction("ShowPlanInfo", new {id = step.planId }); else return View();
+        }
 
         public ActionResult Contact()
         {
@@ -321,6 +357,7 @@ namespace Decanat.Controllers
 
             return View();
         }
+
         
         
 

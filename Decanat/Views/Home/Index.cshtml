@@ -94,13 +94,9 @@ else
         {
             if (User.IsInRole("decan"))
             {
-                <p>
-                    @Html.ActionLink("Добавление преподавателя", "AddTeacher")
-                </p>
-
-                <p>
-                    @Html.ActionLink("Просмотр всех групп", "GetAllGrous")
-                </p>
+<p>
+    Выберете кафедру для начала работы
+</p>
                 <table class="table">
                     <tr>
                         <th>
@@ -133,12 +129,8 @@ else
                 if (User.IsInRole("director"))
                 {
 
-                    <p>
-                        @Html.ActionLink("Добавление преподавателя", "AddTeacher")
-                    </p>
-                    <p>
-                        @Html.ActionLink("Утверждение плана-графика", "")
-                    </p>
+                    if (Model.plans.Count() > 0)
+                    {
                     <p>
                         На отверждение были отправлены Планы-Графики на следующих групп
                     </p>
@@ -163,7 +155,7 @@ else
                             </tr>
                         }
                     </table>
-
+                    } 
                 }
                 else
                 {

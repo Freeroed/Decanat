@@ -21,8 +21,11 @@ if ((Model.status == 0 || Model.status==3)&& User.IsInRole("student"))
         @Html.ActionLink("Добавить ответ","sendAnswer", new { id = Model.id})
     </p>
 }
-if (Model.status == 1)
+if (Model.status == 1 && (User.IsInRole("teacher") || User.IsInRole("decan") || User.IsInRole("director")))
 {
+        <p>
+            Сслыка на ответ:  @Html.DisplayFor(model => Model.link)
+        </p>
 <p>
     Ответ представлен: @Html.DisplayFor(ModelItem => Model.answerDate)
 </p>
@@ -48,7 +51,9 @@ else
         </p>
     }
 
-
+<p>
+    @Html.ActionLink("Венуться к работе", "showVKRInfo", new { id = Model.vkrId });
+</p>
 
 }
 }

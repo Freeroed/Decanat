@@ -18,8 +18,8 @@ namespace Decanat.DAO
         {
             Student st = new Student();
             Connect();
-           // try
-          //  {
+            try
+            {
                 SqlCommand cmd = new SqlCommand("SELECT * FROM Student WHERE Id =@id", Connection);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -36,17 +36,17 @@ namespace Decanat.DAO
                 st.id = tId; st.surname = tSurname; st.firstName = tFirstName; st.patronymic = tPanronymic;
                 st.mobileNomber = tMobileNomber; st.email = tEmail; st.gruppaId = tGruppaId; st.isHasVKR = isHasVKR;
             }
-           // }
+            }
 
-           // catch (Exception e)
-           // {
+            catch (Exception e)
+            {
                 loger.Error("Произошла ошибка при запросе информации о студенте");
-            //    loger.Trace(e.StackTrace);
-          //  }
-           // finally
-          //  {
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
                 Disconnect();
-           // }
+            }
             return st;
 
         }

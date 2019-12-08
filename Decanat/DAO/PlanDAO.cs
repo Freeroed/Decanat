@@ -153,5 +153,41 @@ namespace Decanat.DAO
             }
             return result;
         }
+
+        public bool isPlanAproved(int id)
+        {
+            bool result = false;
+            Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            try
+            {
+                
+                SqlCommand cmd = new SqlCommand("SELECT Status FROM Plun WHERE Id = @Id", Connection);
+                cmd.Parameters.Add(new SqlParameter("@Id", id));
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    int status = Convert.ToInt32(reader["Status"]);
+                    if (status == 2 || status == 5)
+                    {
+                        result = true;
+                    } else
+                    {
+                        result = false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                loger.Error("Произошла ошибка при Запросе статуса плана");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return result;
+        }
     }
 }

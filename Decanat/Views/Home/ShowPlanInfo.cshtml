@@ -33,7 +33,7 @@
     <p>
         Включает в себя следующие этапы
     </p>
-    @if ((Model.plan.status == 1 || Model.plan.status ==3) && (User.IsInRole("decan") || User.IsInRole("director")))
+    if ((Model.plan.status == 1 || Model.plan.status ==3) && (User.IsInRole("decan") || User.IsInRole("director")))
     {
         @Html.ActionLink("Добавить этап", "AddStep", new { id = Model.plan.id })
     }
@@ -53,22 +53,27 @@
         </tr>
         @foreach (var item in Model.steps)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.comment)
-                </td>
-                @if ((Model.plan.status == 1 || Model.plan.status == 3) && (User.IsInRole("decan") || (User.IsInRole("director"))))
-                {
-                <td>
-                    @Html.ActionLink("Редактировать", "EditStep", new { id = item.id})
-                </td> }
-            </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.comment)
+        </td>
+        @if ((Model.plan.status == 1 || Model.plan.status == 3) && (User.IsInRole("decan") || (User.IsInRole("director"))))
+        {
+            <td>
+                @Html.ActionLink("Редактировать", "editStep", new { id = item.id })
+            </td>
+
+        }
+        <td>
+            @Html.ActionLink("Просотреть", "getStepInfo", new { id = item.id })
+        </td>
+    </tr>
         }
 
 
