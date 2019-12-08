@@ -5,7 +5,7 @@
 }
 @if (User.IsInRole("teacher") | User.IsInRole("decan") | User.IsInRole("director"))
 {
-    <h2>Здесь будет выводится информация о ПГ</h2>
+    <h2>Информация о плане</h2>
     <h2>
         @Html.DisplayFor(modelItem => Model.plan.id)
     </h2>

@@ -1,6 +1,7 @@
 ﻿using Decanat.DAO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -9,7 +10,9 @@ namespace Decanat.Models.DecanatModels
     public class Gruppa
     {
         public int id { get; set; }
+        [Required]
         public string groupName { get; set; }
+        [Required]
         public bool bakalavr { get; set; }
         public int kafedra { get; set; }
         public bool study { get; set; }
