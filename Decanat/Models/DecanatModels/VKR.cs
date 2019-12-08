@@ -37,7 +37,7 @@ namespace Decanat.Models.DecanatModels
                     case (4):
                         return "Отменена";
                     default:
-                        return "Не удалось загрузить стытус работы";
+                        return "Не удалось загрузить статус работы";
                 }
             } 
         }

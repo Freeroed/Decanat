@@ -194,5 +194,51 @@ namespace Decanat.DAO
             }
             return result;
         }
+
+
+        public bool setStatus(int id, int status)
+        {
+            bool resuln = true;
+            Connect();
+            loger.Info("Вызван метод " + new StackTrace(false).GetFrame(0).GetMethod().Name);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE VKR SET Status=@status WHERE Id = @id", Connection);
+                cmd.Parameters.Add(new SqlParameter("@id", id));
+                cmd.Parameters.Add(new SqlParameter("@status", status));
+                cmd.ExecuteNonQuery();
+                loger.Info("Успешное изменнение статуса ВКР");
+            }
+            catch (Exception e)
+            {
+                resuln = false;
+                loger.Error("Произошла ошибка при изменении статуса ВКР");
+                loger.Trace(e.StackTrace);
+            }
+            finally
+            {
+                Disconnect();
+            }
+            return resuln;
+        }
+        //проверка статуса ВКР
+        public void checkStatus(int id)
+        {
+            bool result = true;
+            AnswerDAO aDAO = new AnswerDAO();
+            List<Answer> answers = aDAO.getAnswersByVKR(id);
+            foreach (var item in answers)
+            {
+                if (item.status == 1)
+                {
+                    result = result && true;
+                }
+                else { result = result && false; break; }
+            }
+            if (result)
+            {
+                setStatus(id, 2);
+            }
+        }
     }
 }

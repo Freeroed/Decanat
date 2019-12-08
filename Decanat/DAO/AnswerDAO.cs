@@ -135,7 +135,7 @@ namespace Decanat.DAO
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 cmd.Parameters.Add(new SqlParameter("@status", status));
                 cmd.ExecuteNonQuery();
-                loger.Info("Успешный вывод информации об ответе");
+                loger.Info("УУУУУУУУспешное изменнеие статуса ответа");
             }
             catch(Exception e)
             {
@@ -323,8 +323,10 @@ namespace Decanat.DAO
                 List<Answer> answers = getAllAnswers();
                 foreach (var item in answers)
                 {
-                    if (item.status == 0 && sDAO.getStepsInfo(item.stepid).date > DateTime.Now)
+                    loger.Info(item.status + " " + sDAO.getStepsInfo(item.stepid).date + " " + DateTime.Now);
+                    if ((item.status == 0 | item.status == 3) & sDAO.getStepsInfo(item.stepid).date > DateTime.Now)
                     {
+                        loger.Info("Время сдачи меньше текущего, да и ответ не представлен");
                         setStatus(item.id, 4);
                     }
                 }

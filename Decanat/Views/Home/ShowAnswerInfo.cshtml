@@ -21,6 +21,9 @@
             @Html.ActionLink("Добавить ответ", "sendAnswer", new { id = Model.id })
         </p>
     }
+    <p>
+        Ответ должен быть представлен до: @Html.DisplayFor(ModelItem => Model.getDate)
+    </p>
     if (Model.status == 1 && (User.IsInRole("teacher") || User.IsInRole("decan") || User.IsInRole("director")))
     {
         <p>
@@ -56,7 +59,7 @@
         }
 
         <p>
-            @Html.ActionLink("Венуться к работе", "showVKRInfo", new { id = Model.vkrId });
+            @Html.ActionLink("Венуться к работе", "showVKRInfo", new { id = Model.vkrId })
         </p>
 
     }

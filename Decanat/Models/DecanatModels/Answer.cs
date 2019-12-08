@@ -32,6 +32,14 @@ namespace Decanat.Models.DecanatModels
             }
             
         }
+        public DateTime getDate
+        {
+            get
+            {
+                StepDAO sDAO = new StepDAO();
+                return sDAO.getStepsInfo(stepid).date;
+            }
+        }
         public int gruppaId { get; set; }
         public string gruppaName
         {
