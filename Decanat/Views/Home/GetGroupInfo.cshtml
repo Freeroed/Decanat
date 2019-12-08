@@ -25,7 +25,7 @@ else
     {
         <p>Для группы создан план-график</p>
         <p>
-            @Html.ActionLink("Посмотреть план", "ShowPlanInfo", new { id = Model.group.id })
+            @Html.ActionLink("Посмотреть план", "ShowPlanInfo", new { id = Model.group.getPlanId })
         </p>
     }
     else

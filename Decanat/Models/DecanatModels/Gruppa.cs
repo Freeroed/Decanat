@@ -14,6 +14,14 @@ namespace Decanat.Models.DecanatModels
         public int kafedra { get; set; }
         public bool study { get; set; }
         public bool isHasPlan { get; set; }
+        public int getPlanId
+        {
+            get
+            {
+                PlanDAO pDAO = new PlanDAO();
+                return pDAO.showPlanInfoByGropId(id).id;
+            }
+        }
         public string getLivel
         {
             get
