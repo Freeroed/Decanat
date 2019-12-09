@@ -42,7 +42,7 @@
                 @Html.DisplayFor(modelItem => item.isHasPlan)
             </td>
             <td>
-                @if (!item.isHasPlan)
+                @if (!item.isHasPlan &&(User.IsInRole("decan") || User.IsInRole("director")))
                 {
                     @Html.ActionLink("Добавить ПГ ", "AddPlan", new { groupId = item.id })
                 }
@@ -51,4 +51,7 @@
             </td>
         </tr>
     }
+    <p>
+        @Html.ActionLink("Добавить преподавателя", "addTeacher", new { id = Model.kafedra.id })
+    </p>
 </table>

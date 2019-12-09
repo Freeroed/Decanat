@@ -190,7 +190,7 @@ namespace Decanat.DAO
                 cmd.Parameters.Add(new SqlParameter("@Link", link));
                 cmd.Parameters.Add(new SqlParameter("@aDate", DateTime.Now));
                 cmd.ExecuteNonQuery();
-                if (getInfo(id).status == 0)
+                if (getInfo(id).status == 0 || getInfo(id).status == 3)
                 {
                     setStatus(id, 1);
                 }
@@ -324,7 +324,7 @@ namespace Decanat.DAO
                 foreach (var item in answers)
                 {
                     loger.Info(item.status + " " + sDAO.getStepsInfo(item.stepid).date + " " + DateTime.Now);
-                    if ((item.status == 0 | item.status == 3) & sDAO.getStepsInfo(item.stepid).date > DateTime.Now)
+                    if ((item.status == 0 | item.status == 3) & sDAO.getStepsInfo(item.stepid).date < DateTime.Now)
                     {
                         loger.Info("Время сдачи меньше текущего, да и ответ не представлен");
                         setStatus(item.id, 4);

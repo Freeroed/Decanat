@@ -20,7 +20,9 @@
         <p>
             @Html.ActionLink("Добавить ответ", "sendAnswer", new { id = Model.id })
         </p>
-    }
+    } else if(Model.status == 1) { <p>
+    @Html.ActionLink("редактировать ответ", "sendAnswer", new { id = Model.id })
+</p>}
     <p>
         Ответ должен быть представлен до: @Html.DisplayFor(ModelItem => Model.getDate)
     </p>
@@ -50,12 +52,17 @@
                 @Html.ActionLink("Поставить оценку", "setMark", new { id = Model.id })
             </p>
             <p>
-                @Html.ActionLink("На исправление", "SendToEdit", new { id = Model.id })
+                @Html.ActionLink("На исправление", "setAnswerStatus", new { id = Model.id, status = 3})
             </p>
         }
         if (Model.status == 4)
         {
-            @Html.ActionLink("Добавить время", "giveMachTime", new { id = Model.id })
+            @Html.ActionLink("Добавить время", "setAnswerStatus", new { id = Model.id, status = 5 })
+        } else if (Model.status == 5)
+        {
+            <p>
+                @Html.ActionLink("Просрочено", "setAnswerStatus", new { id = Model.id, status = 4})
+            </p>
         }
 
         <p>

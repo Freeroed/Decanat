@@ -185,6 +185,7 @@
     <Compile Include="DAO\StepDAO.cs" />
     <Compile Include="DAO\StudentDAO.cs" />
     <Compile Include="DAO\TeacherDAO.cs" />
+    <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="DAO\VkrDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -202,6 +203,7 @@
     <Compile Include="Models\DecanatModels\StudentsInGroupView.cs" />
     <Compile Include="Models\DecanatModels\Teacher.cs" />
     <Compile Include="Models\DecanatModels\TeachersInKafedraView.cs" />
+    <Compile Include="Models\DecanatModels\User.cs" />
     <Compile Include="Models\DecanatModels\ViewAnswerAndVKR.cs" />
     <Compile Include="Models\DecanatModels\VKR.cs" />
     <Compile Include="Models\DecanatModels\GroupAndStudentView.cs" />

@@ -19,6 +19,7 @@ namespace Decanat.Controllers
         StepDAO stepDAO = new StepDAO();
         KafedraDAO kDAO = new KafedraDAO();
         VkrDAO vkrDAO = new VkrDAO();
+        UserDAO uDAO = new UserDAO();
 
         //Стартовая страница
         public ActionResult Index()
@@ -71,6 +72,8 @@ namespace Decanat.Controllers
         //Добавление студента
         public ActionResult AddStudent()
         {
+            SelectList users = new SelectList(uDAO.getUnregistegUser(), "email");
+            ViewBag.Users = users;
             return View();
         }
 
@@ -87,6 +90,8 @@ namespace Decanat.Controllers
         //Добавление учителя
         public ActionResult AddTeacher()
         {
+            SelectList users = new SelectList(uDAO.getUnregistegUser(), "email");
+            ViewBag.Users = users;
             return View();
         }
 
@@ -345,7 +350,11 @@ namespace Decanat.Controllers
 
             return View();
         }
-
+        public ActionResult setAnswerStatus(int id, int status)
+        {
+            if (aDAO.setStatus(id, status)) return RedirectToAction("showAnswerInfo", new { id = id });
+            else return RedirectToAction("Index"); //На страницу с ошибкой
+        }
         public ActionResult editStep(int id)
         {
             Step step = stepDAO.getStepsInfo(id);
@@ -365,8 +374,6 @@ namespace Decanat.Controllers
             return View();
         }
 
-        
-        
 
 
     }
