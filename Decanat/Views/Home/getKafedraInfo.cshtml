@@ -5,9 +5,14 @@
 }
 
 <h2>Список групп</h2>
+@if (User.IsInRole("decan") || User.IsInRole("director"))
+{
 <p>
-    @Html.ActionLink("Добавить группу", "AddGroup", new {  id  = Model.kafedra.id })
+    @Html.ActionLink("Добавить группу", "AddGroup", new { id = Model.kafedra.id })
 </p>
+<p>
+    @Html.ActionLink("Добавить преподавателя", "addTeacher", new { id = Model.kafedra.id })
+</p>}
 <table class="table" ">
     <tr>
         <th>
@@ -51,7 +56,5 @@
             </td>
         </tr>
     }
-    <p>
-        @Html.ActionLink("Добавить преподавателя", "addTeacher", new { id = Model.kafedra.id })
-    </p>
+    
 </table>

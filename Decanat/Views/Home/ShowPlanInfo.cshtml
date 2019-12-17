@@ -6,9 +6,7 @@
 @if (User.IsInRole("teacher") | User.IsInRole("decan") | User.IsInRole("director"))
 {
     <h2>Информация о плане</h2>
-    <h2>
-        @Html.DisplayFor(modelItem => Model.plan.id)
-    </h2>
+
     <p>
         План-График для группы: @Html.DisplayFor(modelItem => Model.plan.getGroupName)
     </p>

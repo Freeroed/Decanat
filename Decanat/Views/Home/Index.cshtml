@@ -3,8 +3,6 @@
     ViewBag.Title = "Home Page";
 }
 <h2>
-
-
 </h2>
 @if (User.IsInRole("admin"))
 {
@@ -17,7 +15,7 @@ else
     if (User.IsInRole("student"))
     {
         <h2>
-           Темя моей выпускной работы:  @Html.DisplayFor(modelItem => Model.vkr.theme)
+            Темя моей выпускной работы:  @Html.DisplayFor(modelItem => Model.vkr.theme)
         </h2>
         <p>
             Список дел
@@ -56,38 +54,41 @@ else
         {
             if (Model.answers.Count > 0)
             {
-            <p>
-                Для вас были представлены ответы на следующие работы
-            </p>
-            
-            <table class="table">
-                <tr>
-                    <th>
-                        Название работы
-                    </th>
-                    <th>
-                        Дата предоставления
-                    </th>
+                <p>
+                    Для вас были представлены ответы на следующие работы
+                </p>
 
-                </tr>
-                @foreach (var item in Model.answers)
-                {
+                <table class="table">
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.vkrName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.answerDate)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Просмотреть", "ShowAnswerInfo", new { id = item.id })
-                        </td>
-                    </tr>
-                }
+                        <th>
+                            Название работы
+                        </th>
+                        <th>
+                            Дата предоставления
+                        </th>
 
-            </table> }
-            else { <p>
-                  Для вас не представлено ответов на проверку</p>}
+                    </tr>
+                    @foreach (var item in Model.answers)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.vkrName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.answerDate)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Просмотреть", "ShowAnswerInfo", new { id = item.id })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            { <p>
+                    Для вас не представлено ответов на проверку
+                </p>}
             <p>
                 @Html.ActionLink("Все мои группы", "getKafedraInfo", new { id = Model.idKaf })
             </p>
@@ -97,9 +98,9 @@ else
         {
             if (User.IsInRole("decan"))
             {
-<p>
-    Выберете кафедру для начала работы
-</p>
+                <p>
+                    Выберете кафедру для начала работы
+                </p>
                 <table class="table">
                     <tr>
                         <th>
@@ -134,31 +135,66 @@ else
 
                     if (Model.plans.Count() > 0)
                     {
+                        <p>
+                            На отверждение были отправлены Планы-Графики на следующих групп
+                        </p>
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Группа
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                            @foreach (var item in Model.plans)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.getGroupName)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Подробнее", "ShowPlanInfo", new { id = item.id })
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+
+                    }
+                    else
+                    {
+                        <p>
+                            Нет новых планов для утверждения
+                        </p>
+                    }
                     <p>
-                        На отверждение были отправлены Планы-Графики на следующих групп
+                        Выберете кафедру для начала работы
                     </p>
                     <table class="table">
                         <tr>
                             <th>
-                                Группа
+                                Название кафедры
                             </th>
                             <th>
-
+                                E-mail
                             </th>
+                            <th></th>
                         </tr>
-                        @foreach (var item in Model.plans)
+                        @foreach (var item in Model.kafedras)
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.getGroupName)
+                                    @Html.DisplayFor(modelItem => item.name)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Подробнее", "ShowPlanInfo", new { id = item.id })
+                                    @Html.DisplayFor(modelItem => item.email)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Подробнее", "getKafedraInfo", new { id = item.id })
                                 </td>
                             </tr>
                         }
                     </table>
-                    } 
                 }
                 else
                 {

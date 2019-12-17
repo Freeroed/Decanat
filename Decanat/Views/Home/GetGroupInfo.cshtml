@@ -36,7 +36,10 @@ else
             <p> @Html.ActionLink("Создать ПГ", "AddPlan", new { groupId = Model.group.id })</p>
         }
     }
+    if (User.IsInRole("decan") || User.IsInRole("director"))
+    {
     @Html.ActionLink("Добавить студента", "AddStudent", new { groupId = Model.group.id })
+    }
 }
 <p>
     В группе обучаются следубщие студенты

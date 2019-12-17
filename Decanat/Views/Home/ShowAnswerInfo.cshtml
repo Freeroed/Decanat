@@ -20,7 +20,7 @@
         <p>
             @Html.ActionLink("Добавить ответ", "sendAnswer", new { id = Model.id })
         </p>
-    } else if(Model.status == 1) { <p>
+    } else if(Model.status == 1 && User.IsInRole("Student")) { <p>
     @Html.ActionLink("редактировать ответ", "sendAnswer", new { id = Model.id })
 </p>}
     <p>
